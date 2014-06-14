@@ -1,4 +1,4 @@
 ASCII_Art
 =========
 
-Convert a single image to ASCII artwork
+Use Java to convert a single image to ASCII artwork
