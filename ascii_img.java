@@ -6,18 +6,33 @@ public class ascii_img{
   public ascii_img(){
     try{
       final int MAX_SIZE = 80;
-      BufferedImage image = ImageIO.read(new File("testimage.jpg"));
+      BufferedImage image = ImageIO.read(new File("testimage4.jpg"));
       char[] ascii_chars = {'@', 'Q', '%', 'O', 'o', '=', '+', ':', '-', '.', ' '};
-      int block_w = image.getWidth() / MAX_SIZE;
-      int block_h = image.getHeight() / MAX_SIZE;
-      System.out.format("Each block is %d by %d pixels, and there are "
-        +"80x80 blocks.\n", block_w, block_h, block_h*MAX_SIZE);
+      // find aspect ratio and orientation for the image.
+      double img_ratio = (double)image.getWidth()/image.getHeight();
+      int num_rows, num_cols;
+      if(img_ratio>1){
+        // image is vertical
+        num_rows = (int)(MAX_SIZE/img_ratio);
+        num_cols = MAX_SIZE;
+      }else{
+        // image is horizontal or square
+        num_rows = MAX_SIZE;
+        num_cols = (int)(MAX_SIZE/img_ratio);
+      }
+      int block_w = (int)(image.getWidth()/num_cols);
+      int block_h = (int)(image.getHeight()/num_rows);
+      
+      // debugging
+      // System.out.println("The image is: "+image.getWidth()+"/"+image.getHeight()+"="+img_ratio);
+      // System.out.println("That works out to be ~"+num_cols+"("+block_w+") by "+num_rows+"("+block_h+")");
+      // System.out.println("Final image dimensions are: "+num_cols*block_w+" by "+num_rows*block_h);
 
       // make an array of ints to hold the pixel values of each block
       int[] pixels = new int[block_w*block_h];
 
-      for(int row=0; row<MAX_SIZE; row++){
-        for(int col=0; col<MAX_SIZE; col++){
+      for(int row=0; row<num_rows; row++){
+        for(int col=0; col<num_cols; col++){
           int block_avg = 0;
           // fill the pixels array with the values from this block
           image.getRGB(col*block_w, row*block_h,
