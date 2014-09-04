@@ -1,12 +1,7 @@
-import java.awt.BorderLayout;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,9 +13,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import org.imgscalr.AsyncScalr;
 import org.imgscalr.Scalr;
-import org.imgscalr.Scalr.Method;
 
 
 public class GUI_ButtonPanel extends JPanel
@@ -40,10 +33,9 @@ public class GUI_ButtonPanel extends JPanel
 	//*****************************//
 	public GUI_ButtonPanel(GUI_DisplayPanel display_panel) throws IOException
 	{
-		//this.setLayout(new GridLayout(2,4));
-		this.setBorder(BorderFactory.createEmptyBorder( 0,	 //top -create spacing
+		this.setBorder(BorderFactory.createEmptyBorder( 10,	 //top -create spacing
 														0,   //left
-														100, //bottom 
+														80, //bottom 
 														0)); //right
 		this.display_panel = display_panel; 
 		this.setupLoadButton();
@@ -300,10 +292,12 @@ public class GUI_ButtonPanel extends JPanel
 	//*****************************//
 	public BufferedImage resizeImage(String filepath) throws IOException
 	{	
+		int max_size = 400;
+		
 		Scalr scalr = new Scalr(); //**imported Library (credit imgScalr)
 		BufferedImage image = ImageIO.read(new File(filepath));
 		
-	    return image = scalr.resize(image, 400);
+	    return image = scalr.resize(image, max_size);
 	}
 	
 }
