@@ -1,11 +1,6 @@
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,11 +17,10 @@ import javax.swing.JPanel;
 public class GUI_DisplayPanel extends JPanel
 {
 	private final String standard_filepath = "src//imgs//loadimage.png", 
-				            ascii_filepath = "src//imgs//loadimage.png",
+				            ascii_filepath = "src//imgs//waitimage.png",
 				            arrow_filepath = "src//imgs//arrow.png";
 	
 	private JLabel standard_label, ascii_label;
-	private ImageIcon standard_icon, ascii_icon;
 	private JButton convert_button;
 	private JPanel container_panel; //need reference to use for dialog boxes
 	
@@ -37,25 +31,14 @@ public class GUI_DisplayPanel extends JPanel
 	public GUI_DisplayPanel(JPanel container_panel) throws IOException
 	{	
 		this.setLayout(new BorderLayout());
-		this.setBorder(BorderFactory.createEmptyBorder( 60,	 //top
+		this.setBorder(BorderFactory.createEmptyBorder( 0,	 //top
 														15,   //left
-														60, 	 //bottom 
+														0, 	 //bottom 
 														15)); //right
 		this.container_panel = container_panel;
 		this.displayStandardImage();
 		this.setupConvertButton();
 		this.displayAsciiImage();
-	}
-	
-	
-	
-	//******************************//
-	// ** load image - return ImageIcon** //
-	//*****************************//
-	public ImageIcon loadImage(String filepath) throws IOException
-	{	
-		BufferedImage img = ImageIO.read(new File(filepath)); 
-		return new ImageIcon(img);
 	}
 	
 		
@@ -144,6 +127,17 @@ public class GUI_DisplayPanel extends JPanel
 		//*****************************//
 		
 		this.add(convert_button, BorderLayout.CENTER);
+	}
+	
+	
+	
+	//******************************//
+	// ** load image - return ImageIcon ** //
+	//*****************************//
+	public ImageIcon loadImage(String filepath) throws IOException
+	{	
+		BufferedImage img = ImageIO.read(new File(filepath)); 
+		return new ImageIcon(img);
 	}
 	
 	
