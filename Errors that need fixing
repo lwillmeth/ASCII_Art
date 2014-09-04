@@ -1,0 +1,17 @@
+Errors:
+
+>>filechooser...if file doesnt get chosen by user then null pointer 
+
+exception is given ...default to start image?
+
+
+
+>>If convert button is pressed with default image loaded..need to give error 
+
+to load image. Also need to check if have already converted and need to load 
+
+a new image
+
+
+>>Error messages if non-image trys to get loaded
+

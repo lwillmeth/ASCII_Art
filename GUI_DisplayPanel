@@ -1,0 +1,158 @@
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+
+public class GUI_DisplayPanel extends JPanel
+{
+	private final String standard_filepath = "src//imgs//loadimage.png", 
+				            ascii_filepath = "src//imgs//waitimage.png",
+				            arrow_filepath = "src//imgs//arrow.png";
+	
+	private JLabel standard_label, ascii_label;
+	private JButton convert_button;
+	private JPanel container_panel; //need reference to use for dialog boxes
+	
+	
+	//******************************//
+	// ** Constructor ** //
+	//*****************************//
+	public GUI_DisplayPanel(JPanel container_panel) throws IOException
+	{	
+		this.setLayout(new BorderLayout());
+		this.setBorder(BorderFactory.createEmptyBorder( 0,	 //top
+														15,   //left
+														0, 	 //bottom 
+														15)); //right
+		this.container_panel = container_panel;
+		this.displayStandardImage();
+		this.setupConvertButton();
+		this.displayAsciiImage();
+	}
+	
+		
+	
+	//******************************//
+	//** display standard image to covert **//
+	//*****************************//
+	private void displayStandardImage() throws IOException
+	{
+		//** load image - set label to imageicon **//
+	    	this.standard_label = new JLabel(this.loadImage(standard_filepath));
+		//******************************//
+		
+		this.standard_label.setBorder(BorderFactory.createLoweredBevelBorder());
+		this.add(this.standard_label, BorderLayout.LINE_START);
+	}
+	
+	
+	
+	//******************************//
+	//** display converted ACSII image **// 
+	//*****************************//
+	private void displayAsciiImage() throws IOException
+	{	
+		//** load image - set label to imageicon **//
+			this.ascii_label = new JLabel(this.loadImage(ascii_filepath));
+		//******************************//
+		 
+		this.ascii_label.setBorder(BorderFactory.createLoweredBevelBorder());
+		this.add(this.ascii_label, BorderLayout.LINE_END);
+	}
+	
+	
+	
+	//******************************//
+	// ** Convert Button ** //
+	//*****************************//
+	private void setupConvertButton() throws IOException
+	{
+		this.convert_button = new JButton();
+		
+		
+		//** load image -set button to imageicon **//
+			this.convert_button.setIcon(this.loadImage(arrow_filepath));
+		//******************************//
+		
+		
+		//**remove button background**//
+		this.convert_button.setFocusable(false);
+		this.convert_button.setBorder(null); 
+		this.convert_button.setContentAreaFilled(false);
+		//*****************************//
+		
+		
+		//** nested ActionListener **//
+		this.convert_button.addActionListener
+		( 
+			new ActionListener() 
+			{
+				public void actionPerformed(ActionEvent ae) 
+				{
+					if(ae.getSource() == convert_button)
+					{
+						JOptionPane.showMessageDialog(container_panel,
+											   "Feature coming soon!",
+											    			  "Sorry :(",
+										 JOptionPane.WARNING_MESSAGE);
+						
+						
+						////////////////////////////
+						// CALL CONVERT CODE HERE //
+						
+						
+															//<<<<<<<<<<<<<<<<*********************
+						
+						
+						
+						
+						///////////////////////////
+						
+						//changeAsciiIcon(icon); //set image to converted ascii image
+					}
+				}
+			}
+		);
+		//*****************************//
+		
+		this.add(convert_button, BorderLayout.CENTER);
+	}
+	
+	
+	
+	//******************************//
+	// ** load image - return ImageIcon ** //
+	//*****************************//
+	public ImageIcon loadImage(String filepath) throws IOException
+	{	
+		BufferedImage img = ImageIO.read(new File(filepath)); 
+		return new ImageIcon(img);
+	}
+	
+	
+	
+	//******************************//
+	//** -change image icon being displayed **// 
+	//*****************************//
+	public void changeStandardIcon(ImageIcon icon)
+	{
+		standard_label.setIcon(icon);
+	}
+	
+	public void changeAsciiIcon(ImageIcon icon)
+	{
+		ascii_label.setIcon(icon);
+	}
+	
+}
