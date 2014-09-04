@@ -4,9 +4,6 @@ Errors:
 
 exception is given ...default to start image?
 
-fixed? >>MUST CHECK IMAGE SIZE - if image is not 400x400 it fucks everything 
-
-	up..auto crop image but give warning in bottom instructions?
 
 
 >>If convert button is pressed with default image loaded..need to give error 
@@ -18,5 +15,3 @@ a new image
 
 >>Error messages if non-image trys to get loaded
 
-
->>rasterformatexception error??...i think its a too small image error
