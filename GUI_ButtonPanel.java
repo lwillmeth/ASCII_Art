@@ -1,14 +1,15 @@
 import java.awt.BorderLayout;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -16,6 +17,10 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import org.imgscalr.AsyncScalr;
+import org.imgscalr.Scalr;
+import org.imgscalr.Scalr.Method;
 
 
 public class GUI_ButtonPanel extends JPanel
@@ -50,17 +55,6 @@ public class GUI_ButtonPanel extends JPanel
 	
 	
 	//******************************//
-	// ** load image- return ImageIcon** //
-	//*****************************//
-	public ImageIcon loadImage(String filepath) throws IOException
-	{	
-		BufferedImage img = ImageIO.read(new File(filepath)); 
-		return new ImageIcon(img);
-	}
-	
-	
-	
-	//******************************//
 	// ** Load Button ** //
 	//*****************************//
 	private void setupLoadButton() throws IOException
@@ -83,38 +77,21 @@ public class GUI_ButtonPanel extends JPanel
 		this.load_button.addActionListener
 		( 
 			new ActionListener() 
-			{
-				JFileChooser filechooser = new JFileChooser();
-				String filepath ="";
-				
+			{	
+				@Override
 				public void actionPerformed(ActionEvent ae) 
 				{
-					if(ae.getSource() == load_button)
-					{
-						
-						//** file chooser **//
-						filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-						
-						if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
-						{
-							File file = filechooser.getSelectedFile();
-							filepath = file.getAbsolutePath(); 
-						}
-						//*****************************//
-					
-						
-						//** load chosen image onto icon **//
+					if(ae.getSource() == load_button) //when button pressed..
+					{	
+						//** -calls and runs filechooser method..returns filepath as string
+						//** -then brings filepath into resizeImage...a resized bufferedimage is returned
+						//** -then a new Imageicon is made with resized bufferedimage as icon
 						try
 						{
-							//** automatically crop image to 400x400 **//
-							BufferedImage image_in = ImageIO.read(new File(filepath));
-							BufferedImage crop_image = image_in.getSubimage(0, 0, 600, 600); 
-							//*****************************//
-							
-							ImageIcon icon = new ImageIcon(crop_image);
+							ImageIcon icon = new ImageIcon( resizeImage( fileChooser() ));
 							display_panel.changeStandardIcon(icon);
-		
-						} catch (IOException e) { e.printStackTrace(); }
+						} 
+						catch (IOException e) { e.printStackTrace(); }
 						//*****************************//
 					}
 				}
@@ -129,10 +106,15 @@ public class GUI_ButtonPanel extends JPanel
 		
 		this.load_button.addMouseListener(new MouseListener() 
 		{            
+			@Override
 			public void mouseReleased(MouseEvent arg0) {}           
+			@Override
 			public void mousePressed(MouseEvent arg0) {}            
+			@Override
 			public void mouseExited(MouseEvent arg0) { load_button.setIcon(icon_hd_button); }           
+			@Override
 			public void mouseEntered(MouseEvent arg0) { load_button.setIcon(hover_hd_button); }           
+			@Override
 			public void mouseClicked(MouseEvent arg0) {}
 		});
 		//******************************//
@@ -151,9 +133,7 @@ public class GUI_ButtonPanel extends JPanel
 		
 		
 		//** button image **//
-		try{
-			this.capture_button.setIcon(this.loadImage(capture_button_filepath));
-		} catch (IOException e) {e.printStackTrace();}
+		this.capture_button.setIcon(this.loadImage(capture_button_filepath));
 		//*****************************//
 		
 		
@@ -168,6 +148,7 @@ public class GUI_ButtonPanel extends JPanel
 		( 
 			new ActionListener() 
 			{
+				@Override
 				public void actionPerformed(ActionEvent ae) 
 				{
 					if(ae.getSource() == capture_button)
@@ -189,10 +170,15 @@ public class GUI_ButtonPanel extends JPanel
 		
 		this.capture_button.addMouseListener(new MouseListener() 
 		{            
+			@Override
 			public void mouseReleased(MouseEvent arg0) {}           
+			@Override
 			public void mousePressed(MouseEvent arg0) {}            
+			@Override
 			public void mouseExited(MouseEvent arg0) { capture_button.setIcon(icon_capture_button); }           
+			@Override
 			public void mouseEntered(MouseEvent arg0) { capture_button.setIcon(hover_capture_button); }           
+			@Override
 			public void mouseClicked(MouseEvent arg0) {}
 		});
 		//******************************//
@@ -220,6 +206,7 @@ public class GUI_ButtonPanel extends JPanel
 		( 
 			new ActionListener() 
 			{
+				@Override
 				public void actionPerformed(ActionEvent ae) 
 				{
 					if(ae.getSource() == save_button)
@@ -257,6 +244,7 @@ public class GUI_ButtonPanel extends JPanel
 		( 
 			new ActionListener() 
 			{
+				@Override
 				public void actionPerformed(ActionEvent ae) 
 				{
 					if(ae.getSource() == print_button)
@@ -273,4 +261,49 @@ public class GUI_ButtonPanel extends JPanel
 		
 		this.add(print_button);
 	}
+	
+	
+	
+	//******************************//
+	// ** load image- return ImageIcon** //
+	//*****************************//
+	public ImageIcon loadImage(String filepath) throws IOException
+	{	
+		BufferedImage img = ImageIO.read(new File(filepath)); 
+		return new ImageIcon(img);
+	}
+	
+	
+	
+	//******************************//
+	// ** fileChooser - returns filepath String ** //
+	//*****************************//
+	public String fileChooser()
+	{
+		JFileChooser filechooser = new JFileChooser();
+		String filepath = "";
+		
+		filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		
+		if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
+		{
+			File file = filechooser.getSelectedFile();
+			filepath = file.getAbsolutePath(); 
+		}
+		return filepath;
+	}
+	
+	
+	
+	//******************************//
+	// ** resize image - takes filepath ** //
+	//*****************************//
+	public BufferedImage resizeImage(String filepath) throws IOException
+	{	
+		Scalr scalr = new Scalr(); //**imported Library (credit imgScalr)
+		BufferedImage image = ImageIO.read(new File(filepath));
+		
+	    return image = scalr.resize(image, 400);
+	}
+	
 }
