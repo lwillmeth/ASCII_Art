@@ -19,11 +19,13 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+
 public class GUI_Main
 {	
 	private JFrame frame;
 	private final String banner_filepath = "src//imgs//banner.png",
-					 background_filepath = "src//imgs//background.png";
+					 background_filepath = "src//imgs//background.png",
+					  authorpic_filepath = "src//imgs//authorPic.png";
 	
 	public static void main(String[] args) throws IOException 
 	{
@@ -99,6 +101,17 @@ public class GUI_Main
 	
 	
 	//******************************//
+	// ** load image- return ImageIcon** //
+	//*****************************//
+	public ImageIcon loadImage(String filepath) throws IOException
+	{	
+		BufferedImage img = ImageIO.read(new File(filepath)); 
+		return new ImageIcon(img);
+	}
+	
+	
+	
+	//******************************//
 	// ** setup MenuBar - returns JMenuBar** //
 	//*****************************//
 	private JMenuBar setupMenuBar()
@@ -114,18 +127,28 @@ public class GUI_Main
 		menu_bar.add(instructions);
 		
 		final JMenuItem exit = new JMenuItem("Exit");
-		final JMenuItem comingsoon = new JMenuItem("Coming Soon");
+		final JMenuItem about_item = new JMenuItem("Authors");
 		final JMenuItem comingsoon_2 = new JMenuItem("Coming Soon");
 		
 		file.add(exit);
-		about.add(comingsoon);
+		about.add(about_item);
 		instructions.add(comingsoon_2);
+		
+		
+		//** loads the inner menu items panels **//
+		try{
+			this.setupMenuItemPanels(about_item);
+		} 
+		catch (IOException e) { e.printStackTrace(); }
+		//******************************//
+		
 		
 		//** nested actionlistener **//
 		exit.addActionListener
 		( 
 			new ActionListener() 
 			{
+				@Override
 				public void actionPerformed(ActionEvent ae) 
 				{
 					if(ae.getSource() == exit)
@@ -141,12 +164,36 @@ public class GUI_Main
 	
 	
 	//******************************//
-	// ** load image- return ImageIcon** //
+	//** -sets up inner menuitem panels that display info	**//
 	//*****************************//
-	public ImageIcon loadImage(String filepath) throws IOException
-	{	
-		BufferedImage img = ImageIO.read(new File(filepath)); 
-		return new ImageIcon(img);
+	private void setupMenuItemPanels(final JMenuItem about_item) throws IOException
+	{
+		final JPanel about_panel = new JPanel();
+		JLabel label = new JLabel( this.loadImage(authorpic_filepath) );
+		about_panel.add(label);
+		
+		about_item.addActionListener
+		(
+			new ActionListener()
+			{
+				@Override
+				public void actionPerformed(ActionEvent ae) 
+				{
+					if(ae.getSource() == about_item)
+					{
+						JFrame message_frame = new JFrame("Authors");
+						message_frame.setSize(400, 455);
+						message_frame.setLocationRelativeTo(null);
+						message_frame.add(about_panel);
+						
+						message_frame.setVisible(true);
+					}
+						
+				}
+			}
+		);
 	}
+	
+	
 
 }
