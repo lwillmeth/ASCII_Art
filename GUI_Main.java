@@ -24,7 +24,6 @@ public class GUI_Main
 {	
 	private JFrame frame;
 	private final String banner_filepath = "src//imgs//banner.png",
-					 background_filepath = "src//imgs//background.png",
 					  authorpic_filepath = "src//imgs//authorPic.png";
 	
 	public static void main(String[] args) throws IOException 
