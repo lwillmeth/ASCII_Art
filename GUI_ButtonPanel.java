@@ -9,22 +9,30 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import org.imgscalr.Scalr;
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamResolution;
 
 
 public class GUI_ButtonPanel extends JPanel
 {
 	private JButton load_button, capture_button, save_button, print_button;
-	private GUI_DisplayPanel display_panel; //i need to call methods from display_panel class
+	private GUI_DisplayPanel display_panel; //i need a reference to the display_panel class
 	
 	private final String hd_button_filepath = "src//imgs//harddrivebutton.png",
 			        capture_button_filepath = "src//imgs//capturebutton.png", 
 				   hover_hd_button_filepath = "src//imgs//harddrivebuttonHover.png",
-			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png";
+			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png",
+			    temp_capturedimage_filepath = "temp.png",
+			  			 saycheese_filepath = "src//imgs//saycheese.png";
+				
+	
 	
 	
 	
@@ -37,7 +45,7 @@ public class GUI_ButtonPanel extends JPanel
 														0,   //left
 														80, //bottom 
 														0)); //right
-		this.display_panel = display_panel; 
+		this.display_panel = display_panel;
 		this.setupLoadButton();
 		this.setupCaptureButton();
 		//this.setupSaveButton();
@@ -47,7 +55,7 @@ public class GUI_ButtonPanel extends JPanel
 	
 	
 	//******************************//
-	// ** Load Button ** //
+	// ** Load Button setup ** //
 	//*****************************//
 	private void setupLoadButton() throws IOException
 	{
@@ -80,8 +88,11 @@ public class GUI_ButtonPanel extends JPanel
 						//** -then a new Imageicon is made with resized bufferedimage as icon
 						try
 						{
-							ImageIcon icon = new ImageIcon( resizeImage( fileChooser() ));
-							display_panel.changeStandardIcon(icon);
+							String temp = fileChooser();
+							ImageIcon icon = new ImageIcon( resizeImage(temp));
+							
+							display_panel.setWaitingtoconvert_filepath(temp);//setting the image that will now be converted
+							display_panel.changeStandardIcon(icon); //change display image
 						} 
 						catch (IOException e) { e.printStackTrace(); }
 						//*****************************//
@@ -117,7 +128,7 @@ public class GUI_ButtonPanel extends JPanel
 	
 	
 	//******************************//
-	// ** Capture Button ** //
+	// ** Capture Button setup ** //
 	//*****************************//
 	private void setupCaptureButton() throws IOException
 	{
@@ -125,7 +136,7 @@ public class GUI_ButtonPanel extends JPanel
 		
 		
 		//** button image **//
-		this.capture_button.setIcon(this.loadImage(capture_button_filepath));
+		this.capture_button.setIcon( this.loadImage(capture_button_filepath) );
 		//*****************************//
 		
 		
@@ -145,10 +156,15 @@ public class GUI_ButtonPanel extends JPanel
 				{
 					if(ae.getSource() == capture_button)
 					{
-						JOptionPane.showMessageDialog(display_panel,
-								"Feature coming soon!",
-								"Sorry :(",
-								JOptionPane.WARNING_MESSAGE);
+						try {
+							webCam(); // -runs/takes webcam pic - saved as temp_capturedimage_filepath
+							
+							ImageIcon icon = new ImageIcon( resizeImage(temp_capturedimage_filepath) ); 
+							
+							display_panel.setWaitingtoconvert_filepath(temp_capturedimage_filepath); //setting the image that will now be converted
+							display_panel.changeStandardIcon(icon); //change display image
+						} 
+						catch (IOException e) { e.printStackTrace(); }
 					}
 				}
 			}
@@ -181,7 +197,7 @@ public class GUI_ButtonPanel extends JPanel
 	
 	
 	//******************************//
-	// ** Save Button ** //
+	// ** Save Button setup** //
 	//*****************************//
 	private void setupSaveButton()
 	{
@@ -219,7 +235,7 @@ public class GUI_ButtonPanel extends JPanel
 	
 	
 	//******************************//
-	// ** Print Button ** //
+	// ** Print Button setup ** //
 	//*****************************//
 	private void setupPrintButton()
 	{
@@ -251,15 +267,15 @@ public class GUI_ButtonPanel extends JPanel
 		);
 		//*****************************//
 		
-		this.add(print_button);
+		this.add(this.print_button);
 	}
 	
 	
 	
 	//******************************//
-	// ** load image- return ImageIcon** //
+	// ** load image - return ImageIcon** //
 	//*****************************//
-	public ImageIcon loadImage(String filepath) throws IOException
+	private ImageIcon loadImage(String filepath) throws IOException
 	{	
 		BufferedImage img = ImageIO.read(new File(filepath)); 
 		return new ImageIcon(img);
@@ -270,7 +286,7 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	// ** fileChooser - returns filepath String ** //
 	//*****************************//
-	public String fileChooser()
+	private String fileChooser()
 	{
 		JFileChooser filechooser = new JFileChooser();
 		String filepath = "";
@@ -288,16 +304,38 @@ public class GUI_ButtonPanel extends JPanel
 	
 	
 	//******************************//
-	// ** resize image - takes filepath ** //
+	// ** resize image - takes filepath - returns BufferedImage** //
 	//*****************************//
-	public BufferedImage resizeImage(String filepath) throws IOException
+	private BufferedImage resizeImage(String filepath) throws IOException
 	{	
-		int max_size = 400;
+		int max_size = 400; 
 		
 		Scalr scalr = new Scalr(); //**imported Library (credit imgScalr)
 		BufferedImage image = ImageIO.read(new File(filepath));
 		
-	    return image = scalr.resize(image, max_size);
+	    return image = Scalr.resize(image, max_size);
 	}
 	
+	
+	
+	//******************************//
+	//** webCam - opens webcam..takes pic..saves to file
+	//*****************************//
+	private void webCam() throws IOException
+	{	
+		//**get default webcam..set resolution..open it
+		Webcam webcam = Webcam.getDefault();
+		webcam.setViewSize(WebcamResolution.VGA.getSize());
+		webcam.open();
+		
+		BufferedImage image = webcam.getImage();
+
+		//**save image to temp_capturedimage_filepath
+		try{
+			ImageIO.write(image, "PNG", new File(this.temp_capturedimage_filepath));
+		} 
+		catch (IOException e){ e.printStackTrace(); }
+
+		webcam.close();
+	}
 }
