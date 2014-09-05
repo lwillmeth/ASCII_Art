@@ -3,8 +3,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -29,11 +33,7 @@ public class GUI_ButtonPanel extends JPanel
 			        capture_button_filepath = "src//imgs//capturebutton.png", 
 				   hover_hd_button_filepath = "src//imgs//harddrivebuttonHover.png",
 			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png",
-			    temp_capturedimage_filepath = "temp.png",
-			  			 saycheese_filepath = "src//imgs//saycheese.png";
-				
-	
-	
+			    temp_capturedimage_filepath = "temp.png";
 	
 	
 	//******************************//
@@ -93,6 +93,8 @@ public class GUI_ButtonPanel extends JPanel
 							
 							display_panel.setWaitingtoconvert_filepath(temp);//setting the image that will now be converted
 							display_panel.changeStandardIcon(icon); //change display image
+							
+							display_panel.convertImageToAscii(); 
 						} 
 						catch (IOException e) { e.printStackTrace(); }
 						//*****************************//
@@ -163,6 +165,8 @@ public class GUI_ButtonPanel extends JPanel
 							
 							display_panel.setWaitingtoconvert_filepath(temp_capturedimage_filepath); //setting the image that will now be converted
 							display_panel.changeStandardIcon(icon); //change display image
+							
+							display_panel.convertImageToAscii(); 
 						} 
 						catch (IOException e) { e.printStackTrace(); }
 					}
@@ -308,7 +312,7 @@ public class GUI_ButtonPanel extends JPanel
 	//*****************************//
 	private BufferedImage resizeImage(String filepath) throws IOException
 	{	
-		int max_size = 400; 
+		int max_size = 470; 
 		
 		Scalr scalr = new Scalr(); //**imported Library (credit imgScalr)
 		BufferedImage image = ImageIO.read(new File(filepath));
@@ -337,5 +341,25 @@ public class GUI_ButtonPanel extends JPanel
 		catch (IOException e){ e.printStackTrace(); }
 
 		webcam.close();
+	}
+	
+	
+	
+	//******************************//
+	// ** prints a 2d array out to text file - takes in 2dchar array ** //
+	//*****************************//
+	private void printToFile(char[][] temp) throws IOException
+	{
+		FileWriter write = new FileWriter("temp.txt");
+		BufferedWriter buffer = new BufferedWriter(write);
+		PrintWriter print = new PrintWriter(buffer);
+		
+		for(int i=0; i< temp.length; i++)
+		{
+			print.println();
+			for(int j=0; j < temp[i].length; j++)
+				print.print(temp[i][j]);
+		}
+		print.close();	
 	}
 }
