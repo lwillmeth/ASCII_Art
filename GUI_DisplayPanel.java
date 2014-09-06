@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-
 public class GUI_DisplayPanel extends JPanel
 {
 	private final String standard_filepath = "src//imgs//loadimage.png";
@@ -41,7 +40,7 @@ public class GUI_DisplayPanel extends JPanel
 	private void displayStandardImage() throws IOException
 	{
 		//** load image - set label to imageicon **//
-	    	this.standard_label = new JLabel(this.loadImage(standard_filepath));
+	    	this.standard_label = new JLabel(GUI_Main.loadImage(standard_filepath));
 		//******************************//
 		
 		this.standard_label.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -88,18 +87,7 @@ public class GUI_DisplayPanel extends JPanel
 		     this.textarea.append(" " + temp[i][j]);
 		}
 	}
-	
-	
-	
-	//******************************//
-	// ** load image - return ImageIcon ** //
-	//*****************************//
-	private ImageIcon loadImage(String filepath) throws IOException
-	{	
-		BufferedImage img = ImageIO.read(new File(filepath)); 
-		return new ImageIcon(img);
-	}
-	
+
 	
 	
 	//******************************//

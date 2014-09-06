@@ -13,13 +13,20 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+//import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.Timer;
+//import javax.swing.Timer;
+
+
+
+
+
+
 
 import org.imgscalr.Scalr;
+
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamResolution;
 
@@ -63,7 +70,7 @@ public class GUI_ButtonPanel extends JPanel
 		
 		
 		//** button image **//
-		this.load_button.setIcon(this.loadImage(hd_button_filepath));
+		this.load_button.setIcon(GUI_Main.loadImage(hd_button_filepath));
 		//*****************************//
 		
 		
@@ -106,8 +113,8 @@ public class GUI_ButtonPanel extends JPanel
 		  
 		
 		//** nested MouseListener - mouse hover - change image **//
-		final ImageIcon icon_hd_button = this.loadImage(hd_button_filepath);
-		final ImageIcon hover_hd_button = this.loadImage(hover_hd_button_filepath);
+		final ImageIcon icon_hd_button = GUI_Main.loadImage(hd_button_filepath);
+		final ImageIcon hover_hd_button = GUI_Main.loadImage(hover_hd_button_filepath);
 		
 		this.load_button.addMouseListener(new MouseListener() 
 		{            
@@ -138,7 +145,7 @@ public class GUI_ButtonPanel extends JPanel
 		
 		
 		//** button image **//
-		this.capture_button.setIcon( this.loadImage(capture_button_filepath) );
+		this.capture_button.setIcon( GUI_Main.loadImage(capture_button_filepath) );
 		//*****************************//
 		
 		
@@ -177,8 +184,8 @@ public class GUI_ButtonPanel extends JPanel
 		
 		
 		//** nested MouseListener - mouse hover - change image **//
-		final ImageIcon icon_capture_button = this.loadImage(capture_button_filepath);
-		final ImageIcon hover_capture_button = this.loadImage(hover_capture_button_filepath);
+		final ImageIcon icon_capture_button = GUI_Main.loadImage(capture_button_filepath);
+		final ImageIcon hover_capture_button = GUI_Main.loadImage(hover_capture_button_filepath);
 		
 		this.capture_button.addMouseListener(new MouseListener() 
 		{            
@@ -276,14 +283,14 @@ public class GUI_ButtonPanel extends JPanel
 	
 	
 	
-	//******************************//
-	// ** load image - return ImageIcon** //
-	//*****************************//
-	private ImageIcon loadImage(String filepath) throws IOException
-	{	
-		BufferedImage img = ImageIO.read(new File(filepath)); 
-		return new ImageIcon(img);
-	}
+//	//******************************//
+//	// ** load image - return ImageIcon** //
+//	//*****************************//
+//	private ImageIcon loadImage(String filepath) throws IOException
+//	{	
+//		BufferedImage img = ImageIO.read(new File(filepath)); 
+//		return new ImageIcon(img);
+//	}
 	
 	
 	
@@ -314,7 +321,7 @@ public class GUI_ButtonPanel extends JPanel
 	{	
 		int max_size = 470; 
 		
-		Scalr scalr = new Scalr(); //**imported Library (credit imgScalr)
+		//Scalr scalr = new Scalr(); //**imported Library (credit imgScalr)
 		BufferedImage image = ImageIO.read(new File(filepath));
 		
 	    return image = Scalr.resize(image, max_size);
