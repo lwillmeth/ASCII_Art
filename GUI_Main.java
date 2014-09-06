@@ -77,13 +77,9 @@ public class GUI_Main
 															    0,   //left
 															   20,   //bottom 
 															    0)); //right
-		try { 
-			banner_label.setIcon(loadImage(banner_filepath)); 
-		} 
-		catch (IOException e) { e.printStackTrace(); }
-				
+		banner_label.setIcon(loadImage(banner_filepath)); 
+		
 		title_panel.add(banner_label);
-		//*****************************//
 	}
 	
 	
@@ -93,16 +89,7 @@ public class GUI_Main
 	//*****************************//
 	public static ImageIcon loadImage(String filepath) throws IOException
 	{	
-		try{
-			BufferedImage img = ImageIO.read(new File(filepath));
-			if(img == null)
-				img = ImageIO.read(new File("/src/imgs/loadimage.png"));
-			return new ImageIcon(img);
-		}catch (Exception e){
-			System.out.println("Image not found.");
-			BufferedImage img = ImageIO.read(new File("/src/imgs/loadimage.png"));
-			return new ImageIcon(img);
-		}
+		return new ImageIcon(loadBufferedImage(filepath));
 	}
 	
 	
@@ -147,12 +134,7 @@ public class GUI_Main
 		instructions.add(comingsoon_2);
 		
 		//** loads the inner menu items panels **//
-		try{
-			this.setupMenuItemPanels(about_item);
-		} 
-		catch (IOException e) { e.printStackTrace(); }
-		//******************************//
-		
+		this.setupMenuItemPanels(about_item);	
 		
 		//** nested actionlistener **//
 		exit.addActionListener
@@ -167,8 +149,6 @@ public class GUI_Main
 				}
 			}
 		);
-		//******************************//
-		
 		return menu_bar;
 	}
 	
@@ -202,5 +182,4 @@ public class GUI_Main
 			}
 		);
 	}
-
 }
