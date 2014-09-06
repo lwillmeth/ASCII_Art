@@ -5,6 +5,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 //import javax.swing.Timer;
 
 import org.imgscalr.Scalr;
@@ -32,6 +34,7 @@ public class GUI_ButtonPanel extends JPanel
 			        capture_button_filepath = "src//imgs//capturebutton.png", 
 				   hover_hd_button_filepath = "src//imgs//harddrivebuttonHover.png",
 			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png",
+					      loadimage_filepath = "src//imgs//loadimage.png",
 			    temp_capturedimage_filepath = "temp.png";
 	
 	//******************************//
@@ -81,10 +84,10 @@ public class GUI_ButtonPanel extends JPanel
 						//** -then a new Imageicon is made with resized bufferedimage as icon
 						try
 						{
-							String temp = fileChooser();
+							String temp = fileChooser(); //returns string of file chosen
 							ImageIcon icon = new ImageIcon( resizeImage(temp));
 							
-							display_panel.setWaitingtoconvert_filepath(temp);//setting the image that will now be converted
+							display_panel.setImageToConvert_filepath(temp);//setting the image that will now be converted
 							display_panel.changeStandardIcon(icon); //change display image
 							display_panel.convertImageToAscii(); 
 						} 
@@ -149,7 +152,7 @@ public class GUI_ButtonPanel extends JPanel
 							
 							ImageIcon icon = new ImageIcon( resizeImage(temp_capturedimage_filepath) ); 
 							
-							display_panel.setWaitingtoconvert_filepath(temp_capturedimage_filepath); //setting the image that will now be converted
+							display_panel.setImageToConvert_filepath(temp_capturedimage_filepath); //setting the image that will now be converted
 							display_panel.changeStandardIcon(icon); //change display image
 							
 							display_panel.convertImageToAscii(); 
@@ -191,7 +194,6 @@ public class GUI_ButtonPanel extends JPanel
 	private void setupSaveButton()
 	{
 		this.save_button = new JButton("Save");
-		
 		
 		//** button image**//
 		
@@ -257,7 +259,10 @@ public class GUI_ButtonPanel extends JPanel
 	private String fileChooser()
 	{
 		JFileChooser filechooser = new JFileChooser();
-		String filepath = "";
+		String filepath = null;
+		
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("jpg, png, gif", "jpg", "gif", "png");
+		filechooser.setFileFilter(filter);
 		filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		
 		if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
@@ -275,11 +280,13 @@ public class GUI_ButtonPanel extends JPanel
 	//*****************************//
 	private BufferedImage resizeImage(String filepath) throws IOException
 	{	
-		int max_size = 470; 
-		//Scalr scalr = new Scalr(); //**imported Library (credit imgScalr)
+		int max_size = 470;
+
+		if(filepath == null)
+			filepath = this.loadimage_filepath;
+	
 		BufferedImage image = ImageIO.read(new File(filepath));
-		
-	    return image = Scalr.resize(image, max_size);
+	    return image = Scalr.resize(image, max_size); //**imported Library (credit imgScalr)
 	}
 	
 	
@@ -308,18 +315,22 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	// ** prints a 2d array out to text file - takes in 2dchar array ** //
 	//*****************************//
-	private void printToFile(char[][] temp) throws IOException
+	private void printToFile(char[][] temp)
 	{
-		FileWriter write = new FileWriter("temp.txt");
-		BufferedWriter buffer = new BufferedWriter(write);
-		PrintWriter print = new PrintWriter(buffer);
-		
-		for(int i=0; i< temp.length; i++)
+		try
 		{
-			print.println();
-			for(int j=0; j < temp[i].length; j++)
-				print.print(temp[i][j]);
-		}
-		print.close();	
+			FileWriter write = new FileWriter("temp.txt");
+			BufferedWriter buffer = new BufferedWriter(write);
+			PrintWriter print = new PrintWriter(buffer);
+			
+			for(int i=0; i< temp.length; i++)
+			{
+				print.println();
+				for(int j=0; j < temp[i].length; j++)
+					print.print(temp[i][j]);
+			}
+			print.close();		
+		} 
+		catch (IOException ioe) { ioe.printStackTrace(); }
 	}
 }
