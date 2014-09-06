@@ -1,9 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -16,7 +13,6 @@ public class GUI_DisplayPanel extends JPanel
 	private String waitingtoconvert_filepath ="";
 	private JLabel standard_label, ascii_label;
 	private JTextArea textarea;
-	
 	
 	//******************************//
 	// ** Constructor ** //
@@ -40,9 +36,7 @@ public class GUI_DisplayPanel extends JPanel
 	private void displayStandardImage() throws IOException
 	{
 		//** load image - set label to imageicon **//
-	    	this.standard_label = new JLabel(GUI_Main.loadImage(standard_filepath));
-		//******************************//
-		
+    	this.standard_label = new JLabel(GUI_Main.loadImage(standard_filepath));
 		this.standard_label.setBorder(BorderFactory.createLoweredBevelBorder());
 		this.standard_label.setSize(400, 400);
 		this.add(this.standard_label, BorderLayout.LINE_START);
@@ -75,16 +69,14 @@ public class GUI_DisplayPanel extends JPanel
 		//** -runs convert code on passed in temp image **//
 		//** -returns a 2D array of chars			    **//	
 		char[][] temp = convert.convertImgToAscii(); 
-		//*****************************//
 	
 		//output text to textarea
 		this.textarea.setText(""); //clear textarea
 		for(int i = 0; i < temp.length; i++) 
 		{
 			this.textarea.append("\n");
-			
-		   for(int j = 0; j < temp[i].length; j++) 
-		     this.textarea.append(" " + temp[i][j]);
+			for(int j = 0; j < temp[i].length; j++) 
+				this.textarea.append(" " + temp[i][j]);
 		}
 	}
 

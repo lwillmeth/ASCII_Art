@@ -46,7 +46,6 @@ public class GUI_Main
 		this.frame.setJMenuBar( this.setupMenuBar() ); //returns a setup JMenuBar
 		
 		this.setupPanels(); 
-		
 		this.frame.setVisible(true);
 	}
 	
@@ -57,36 +56,29 @@ public class GUI_Main
 	{
 		JPanel container_panel, title_panel;
 		
-		
 		// ** instantiate panels..etc **//
 		container_panel = new JPanel();
 		title_panel = new JPanel();
-		
 		JLabel banner_label = new JLabel();
 		//JTextArea textarea = new JTextArea();
 		GUI_DisplayPanel display_panel = new GUI_DisplayPanel(container_panel); //need to pass panel for displaying dialog box messages
 		GUI_ButtonPanel button_panel = new GUI_ButtonPanel(display_panel); //pass in panel to use methods
-		//*****************************//
-		
 		
 		// ** setup container panel **//
 		container_panel.setLayout(new BorderLayout()); // **main layout
 		container_panel.setBackground(Color.blue);
-		
 		this.frame.add(container_panel);
 		container_panel.add(title_panel, BorderLayout.PAGE_START);
 		container_panel.add(display_panel, BorderLayout.CENTER);// needs own class for logic
 		container_panel.add(button_panel,BorderLayout.PAGE_END);//needs own class for logic
-		//*****************************//
-		
-		
+
 		// ** setup title panel - load banner image **//
 		title_panel.setBorder(BorderFactory.createEmptyBorder( 20,	 //top -create spacing
 															    0,   //left
 															   20,   //bottom 
 															    0)); //right
 		try { 
-			banner_label.setIcon(this.loadImage(banner_filepath)); 
+			banner_label.setIcon(loadImage(banner_filepath)); 
 		} 
 		catch (IOException e) { e.printStackTrace(); }
 				
@@ -116,12 +108,28 @@ public class GUI_Main
 	
 	
 	//******************************//
+	// ** load image- return BufferedImage** //
+	//*****************************//
+	public static BufferedImage loadBufferedImage(String filepath) throws IOException
+	{
+		try{
+			BufferedImage img = ImageIO.read(new File(filepath));
+			return img;
+		}catch (Exception e){
+			System.out.println("Image not found.");
+			BufferedImage img = ImageIO.read(new File("/src/imgs/loadimage.png"));
+			return img;
+		}
+	}
+	
+	
+	
+	//******************************//
 	// ** setup MenuBar - returns JMenuBar** //
 	//*****************************//
 	private JMenuBar setupMenuBar()
 	{
 		JMenuBar menu_bar = new JMenuBar();
-		
 		JMenu file = new JMenu("File");
 		JMenu about = new JMenu("About");
 		JMenu instructions = new JMenu("Instructions");
@@ -137,7 +145,6 @@ public class GUI_Main
 		file.add(exit);
 		about.add(about_item);
 		instructions.add(comingsoon_2);
-		
 		
 		//** loads the inner menu items panels **//
 		try{
@@ -173,7 +180,7 @@ public class GUI_Main
 	private void setupMenuItemPanels(final JMenuItem about_item) throws IOException
 	{
 		final JPanel about_panel = new JPanel();
-		JLabel label = new JLabel( this.loadImage(authorpic_filepath) );
+		JLabel label = new JLabel( loadImage(authorpic_filepath) );
 		about_panel.add(label);
 		
 		about_item.addActionListener
@@ -189,15 +196,11 @@ public class GUI_Main
 						message_frame.setSize(400, 455);
 						message_frame.setLocationRelativeTo(null);
 						message_frame.add(about_panel);
-						
 						message_frame.setVisible(true);
 					}
-						
 				}
 			}
 		);
 	}
-	
-	
 
 }

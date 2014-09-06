@@ -34,7 +34,6 @@ public class GUI_ButtonPanel extends JPanel
 			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png",
 			    temp_capturedimage_filepath = "temp.png";
 	
-	
 	//******************************//
 	// ** Constructor ** //
 	//*****************************//
@@ -60,17 +59,12 @@ public class GUI_ButtonPanel extends JPanel
 	{
 		this.load_button = new JButton();
 		
-		
 		//** button image **//
 		this.load_button.setIcon(GUI_Main.loadImage(hd_button_filepath));
-		//*****************************//
-		
 		
 		//**remove button background**//
 		this.load_button.setBorder(null); 
 		this.load_button.setContentAreaFilled(false);
-		//*****************************//
-		
 		
 		//** nested ActionListener **//
 		this.load_button.addActionListener
@@ -92,17 +86,16 @@ public class GUI_ButtonPanel extends JPanel
 							
 							display_panel.setWaitingtoconvert_filepath(temp);//setting the image that will now be converted
 							display_panel.changeStandardIcon(icon); //change display image
-							
 							display_panel.convertImageToAscii(); 
 						} 
-						catch (IOException e) { e.printStackTrace(); }
-						//*****************************//
+						catch (IOException e)
+						{
+							e.printStackTrace();
+						}
 					}
 				}
 			}
 		);
-		//*****************************//
-		  
 		
 		//** nested MouseListener - mouse hover - change image **//
 		final ImageIcon icon_hd_button = GUI_Main.loadImage(hd_button_filepath);
@@ -121,7 +114,6 @@ public class GUI_ButtonPanel extends JPanel
 			@Override
 			public void mouseClicked(MouseEvent arg0) {}
 		});
-		//******************************//
 
 		this.add(load_button);	
 	}
@@ -135,17 +127,12 @@ public class GUI_ButtonPanel extends JPanel
 	{
 		this.capture_button = new JButton();
 		
-		
 		//** button image **//
 		this.capture_button.setIcon( GUI_Main.loadImage(capture_button_filepath) );
-		//*****************************//
-		
 		
 		//**remove button background**//
 		this.capture_button.setBorder(null); 
 		this.capture_button.setContentAreaFilled(false);
-		//*****************************//
-		
 		
 		//** nested ActionListener **//
 		this.capture_button.addActionListener
@@ -172,28 +159,27 @@ public class GUI_ButtonPanel extends JPanel
 				}
 			}
 		);
-		//*****************************//
-		
 		
 		//** nested MouseListener - mouse hover - change image **//
 		final ImageIcon icon_capture_button = GUI_Main.loadImage(capture_button_filepath);
 		final ImageIcon hover_capture_button = GUI_Main.loadImage(hover_capture_button_filepath);
 		
-		this.capture_button.addMouseListener(new MouseListener() 
-		{            
-			@Override
-			public void mouseReleased(MouseEvent arg0) {}           
-			@Override
-			public void mousePressed(MouseEvent arg0) {}            
-			@Override
-			public void mouseExited(MouseEvent arg0) { capture_button.setIcon(icon_capture_button); }           
-			@Override
-			public void mouseEntered(MouseEvent arg0) { capture_button.setIcon(hover_capture_button); }           
-			@Override
-			public void mouseClicked(MouseEvent arg0) {}
-		});
-		//******************************//
-		
+		this.capture_button.addMouseListener(
+			new MouseListener() 
+			{
+				@Override
+				public void mouseReleased(MouseEvent arg0) {}           
+				@Override
+				public void mousePressed(MouseEvent arg0) {}            
+				@Override
+				public void mouseExited(MouseEvent arg0) { capture_button.setIcon(icon_capture_button); }           
+				@Override
+				public void mouseEntered(MouseEvent arg0) { capture_button.setIcon(hover_capture_button); }           
+				@Override
+				public void mouseClicked(MouseEvent arg0) {}
+			}
+		);
+
 		this.add(capture_button);
 	}
 	
@@ -208,9 +194,6 @@ public class GUI_ButtonPanel extends JPanel
 		
 		
 		//** button image**//
-
-		//*****************************//
-		
 		
 		//** nested ActionListener **//
 		this.save_button.addActionListener
@@ -230,8 +213,6 @@ public class GUI_ButtonPanel extends JPanel
 				}
 			}
 		);
-		//*****************************//
-		
 		this.add(save_button);
 	}
 	
@@ -244,11 +225,7 @@ public class GUI_ButtonPanel extends JPanel
 	{
 		this.print_button = new JButton("Print");
 		
-		
 		//** button image**//
-
-		//*****************************//
-		
 		
 		//** nested ActionListener **//
 		this.print_button.addActionListener
@@ -268,7 +245,6 @@ public class GUI_ButtonPanel extends JPanel
 				}
 			}
 		);
-		//*****************************//
 		
 		this.add(this.print_button);
 	}
@@ -282,7 +258,6 @@ public class GUI_ButtonPanel extends JPanel
 	{
 		JFileChooser filechooser = new JFileChooser();
 		String filepath = "";
-		
 		filechooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		
 		if (filechooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) 
@@ -301,7 +276,6 @@ public class GUI_ButtonPanel extends JPanel
 	private BufferedImage resizeImage(String filepath) throws IOException
 	{	
 		int max_size = 470; 
-		
 		//Scalr scalr = new Scalr(); //**imported Library (credit imgScalr)
 		BufferedImage image = ImageIO.read(new File(filepath));
 		
@@ -319,7 +293,6 @@ public class GUI_ButtonPanel extends JPanel
 		Webcam webcam = Webcam.getDefault();
 		webcam.setViewSize(WebcamResolution.VGA.getSize());
 		webcam.open();
-		
 		BufferedImage image = webcam.getImage();
 
 		//**save image to temp_capturedimage_filepath
@@ -327,7 +300,6 @@ public class GUI_ButtonPanel extends JPanel
 			ImageIO.write(image, "PNG", new File(this.temp_capturedimage_filepath));
 		} 
 		catch (IOException e){ e.printStackTrace(); }
-
 		webcam.close();
 	}
 	
