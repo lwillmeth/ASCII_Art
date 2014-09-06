@@ -19,17 +19,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 //import javax.swing.Timer;
 
-
-
-
-
-
-
 import org.imgscalr.Scalr;
-
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamResolution;
-
 
 public class GUI_ButtonPanel extends JPanel
 {
@@ -280,17 +272,6 @@ public class GUI_ButtonPanel extends JPanel
 		
 		this.add(this.print_button);
 	}
-	
-	
-	
-//	//******************************//
-//	// ** load image - return ImageIcon** //
-//	//*****************************//
-//	private ImageIcon loadImage(String filepath) throws IOException
-//	{	
-//		BufferedImage img = ImageIO.read(new File(filepath)); 
-//		return new ImageIcon(img);
-//	}
 	
 	
 	

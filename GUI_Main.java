@@ -1,6 +1,3 @@
-//////////////////////////////////////////
-//		description needed here 		//
-//////////////////////////////////////////
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -19,7 +16,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 //import javax.swing.JTextArea;
-
 
 public class GUI_Main
 {	
