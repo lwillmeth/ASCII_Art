@@ -1,7 +1,7 @@
 import java.awt.image.BufferedImage;
 //import javax.imageio.*;
 import java.io.*;
-
+ 
 public class ImageToASCII
 {	
 	private String filepath ="";
