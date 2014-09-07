@@ -17,7 +17,7 @@ public class GUI_DisplayPanel extends JPanel
 	//******************************//
 	// ** Constructor ** //
 	//*****************************//
-	public GUI_DisplayPanel() throws IOException
+	public GUI_DisplayPanel(JPanel container_panel) throws IOException
 	{	
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder( 0,	 //top

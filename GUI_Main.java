@@ -114,7 +114,7 @@ public class GUI_Main
 	//******************************//
 	// ** setup MenuBar - returns JMenuBar** //
 	//*****************************//
-	private JMenuBar setupMenuBar()
+	private JMenuBar setupMenuBar() throws IOException
 	{
 		JMenuBar menu_bar = new JMenuBar();
 		JMenu file = new JMenu("File");
@@ -134,7 +134,7 @@ public class GUI_Main
 		instructions.add(comingsoon_2);
 		
 		//** loads the inner menu items panels **//
-		this.setupMenuItemPanels(about_item);	
+		this.setupMenuItemPanels(about_item);
 		
 		//** nested actionlistener **//
 		exit.addActionListener
