@@ -49,8 +49,8 @@ public class GUI_DisplayPanel extends JPanel
 	//*****************************//
 	private void setupTextArea() throws IOException
 	{	
-		this.textarea = new JTextArea(100,98);
-		textarea.setFont(new Font("Courier", Font.BOLD, 8));
+		textarea = new JTextArea(120,120);
+		textarea.setFont(new Font("Courier", Font.BOLD, 6));
 		textarea.setBorder(BorderFactory.createLoweredBevelBorder());
 		textarea.setEditable(false);
 		
@@ -74,9 +74,9 @@ public class GUI_DisplayPanel extends JPanel
 		this.textarea.setText(""); //clear textarea
 		for(int i = 0; i < temp.length; i++) 
 		{
-			this.textarea.append("\n");
 			for(int j = 0; j < temp[i].length; j++) 
 				this.textarea.append(" " + temp[i][j]);
+			this.textarea.append("\n");
 		}
 	}
 

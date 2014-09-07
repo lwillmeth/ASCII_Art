@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 
 public class GUI_Main
 {	
+	public static final int ASCII_MAX_SIZE = 55;
 	private JFrame frame;
 	private final String banner_filepath = "src//imgs//banner.png",
 					  authorpic_filepath = "src//imgs//authorPic.png";

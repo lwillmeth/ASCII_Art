@@ -1,5 +1,5 @@
 import java.awt.image.BufferedImage;
-import javax.imageio.*;
+//import javax.imageio.*;
 import java.io.*;
 
 public class ImageToASCII
@@ -17,8 +17,8 @@ public class ImageToASCII
 	//*****************************//	
 	public char[][] convertImgToAscii() throws IOException
 	{
-		final int MAX_SIZE = 50;
-		BufferedImage image = ImageIO.read(new File( this.filepath ));
+		BufferedImage image = GUI_Main.loadBufferedImage(this.filepath);
+//		BufferedImage image = ImageIO.read(new File( this.filepath ));
 
 		// our available characters, is less more? Who knows.
 		String ascii_chars = "@&%#=+:-.  ";
@@ -26,18 +26,18 @@ public class ImageToASCII
 		// find aspect ratio and orientation for the image.
 		double img_ratio = (double)image.getWidth()/image.getHeight();
 		int num_rows, num_cols;
-
+	
 		if(img_ratio>1)
 		{
 			// image is vertical
-			num_rows = (int)(MAX_SIZE/img_ratio);
-			num_cols = MAX_SIZE;
+			num_rows = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
+			num_cols = GUI_Main.ASCII_MAX_SIZE;
 		}
 		else
 		{
 			// image is horizontal or square
-			num_rows = MAX_SIZE;
-			num_cols = (int)(MAX_SIZE/img_ratio);
+			num_rows = GUI_Main.ASCII_MAX_SIZE;
+			num_cols = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
 		}
 		// Return a 2d array of characters representing the image:
 		char[][] result = new char[num_rows][num_cols];
