@@ -9,51 +9,65 @@ import com.github.sarxos.webcam.WebcamPanel;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 
-public class GUI_Video extends JFrame implements Runnable {
+public class GUI_Video extends JFrame{
+	private final int ASCII_MAX_SIZE = 50;
 	private JTextArea textarea;
-	private char[][] ascii_img = new char[50][50];
+	private char[][] ascii_img = new char[ASCII_MAX_SIZE][ASCII_MAX_SIZE];
 	private Webcam webcam = Webcam.getDefault();
 	
 	public GUI_Video(){
-		Thread updater = new Thread(this, "updater-thread");
-		updater.setDaemon(true);
-		updater.start();
+
+		webcam.setViewSize(new Dimension(320,240));
+		webcam.open();
 		
-		setTitle("Video demo");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(new FlowLayout());
-		webcam.setViewSize(new Dimension(400,400));
+		JFrame frame = new JFrame("Video demo");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setLayout(new FlowLayout());
 		
-		WebcamPanel wpanel = new WebcamPanel(webcam);
+		WebcamPanel wpanel = new WebcamPanel(webcam);		
 		
-		add(wpanel);
-		add(textarea);
+		frame.add(wpanel);
+		frame.add(textarea);
 		
-		pack();
-		setVisible(true);
+		frame.pack();
+		frame.setVisible(true);
+		
+//		while(true){
+//			try{
+//				ascii_img = convertImgToAscii(webcam.getImage());
+//			}catch(IOException e){
+//				e.printStackTrace();
+//			}
+//			textarea.setText("");
+//			for(int i = 0; i < ascii_img.length; i++){
+//				for(int j = 0; j < ascii_img[i].length; j++) 
+//					textarea.append(" " + ascii_img[i][j]);
+//				textarea.append("\n");
+//			}
+//		}
 	}
 
 	public static void main(String[] args){
 		new GUI_Video();
 	}
 	
-	@Override
-	public void run(){
-		
-		while(true){
-			try{
-				ascii_img = convertImgToAscii(webcam.getImage());
-			}catch(IOException e){
-				e.printStackTrace();
-			}
-			textarea.setText("");
-			for(int i = 0; i < ascii_img.length; i++){
-				for(int j = 0; j < ascii_img[i].length; j++) 
-					textarea.append(" " + ascii_img[i][j]);
-				textarea.append("\n");
-			}
-		}
-	}
+//	@Override
+//	public void run(){
+//		
+//		while(true){
+//			try{
+//				ascii_img = convertImgToAscii(webcam.getImage());
+//			}catch(IOException e){
+//				e.printStackTrace();
+//			}
+//			textarea.setText("");
+//			for(int i = 0; i < ascii_img.length; i++){
+//				for(int j = 0; j < ascii_img[i].length; j++) 
+//					textarea.append(" " + ascii_img[i][j]);
+//				textarea.append("\n");
+//			}
+//		}
+//	}
 	
 	//******************************//
 	//** Loads an image, returns ascii representation **// 
@@ -71,14 +85,14 @@ public class GUI_Video extends JFrame implements Runnable {
 		if(img_ratio>1)
 		{
 			// image is vertical
-			num_rows = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
-			num_cols = GUI_Main.ASCII_MAX_SIZE;
+			num_rows = (int)(ASCII_MAX_SIZE/img_ratio);
+			num_cols = ASCII_MAX_SIZE;
 		}
 		else
 		{
 			// image is horizontal or square
-			num_rows = GUI_Main.ASCII_MAX_SIZE;
-			num_cols = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
+			num_rows = ASCII_MAX_SIZE;
+			num_cols = (int)(ASCII_MAX_SIZE/img_ratio);
 		}
 		// Return a 2d array of characters representing the image:
 		char[][] result = new char[num_rows][num_cols];
