@@ -19,7 +19,7 @@ public class GUI_DisplayPanel extends JPanel
 	//******************************//
 	// ** Constructor ** //
 	//*****************************//
-	public GUI_DisplayPanel() throws IOException
+	public GUI_DisplayPanel()
 	{	
 		this.setLayout(new BorderLayout());
 		this.setBorder(BorderFactory.createEmptyBorder( 0,	 //top
@@ -35,7 +35,7 @@ public class GUI_DisplayPanel extends JPanel
 	//******************************//
 	//** setup standard label image - is image to be covert **//
 	//*****************************//
-	private void displayStandardImage() throws IOException
+	private void displayStandardImage()
 	{
 		//** load image - set label to imageicon **//
     	this.standard_label = new JLabel(GUI_Main.loadImage(loadimage_filepath));
@@ -49,7 +49,7 @@ public class GUI_DisplayPanel extends JPanel
 	//******************************//
 	//** setup TextArea to display converted image in Ascii art  **// 
 	//*****************************//
-	private void setupTextArea() throws IOException
+	private void setupTextArea()
 	{	
 		textarea = new JTextArea(120,120);
 		textarea.setFont(new Font("Courier", Font.BOLD, 6));
@@ -64,7 +64,7 @@ public class GUI_DisplayPanel extends JPanel
 	//******************************//
 	// ** Convert Image to Ascii ** //
 	//*****************************//
-	public void convertImageToAscii(BufferedImage image) throws IOException
+	public void convertImageToAscii(BufferedImage image)
 	{
 		// our available characters, is less more? Who knows.
 		final String ascii_chars = "@&%#=+:-.  ";

@@ -40,7 +40,7 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	// ** Constructor ** //
 	//*****************************//
-	public GUI_ButtonPanel() throws IOException
+	public GUI_ButtonPanel()
 	{
 		this.setBorder(BorderFactory.createEmptyBorder( 10,	 //top -create spacing
 														0,   //left
@@ -58,7 +58,7 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	// ** Load Button setup ** //
 	//*****************************//
-	private void setupLoadButton() throws IOException
+	private void setupLoadButton()
 	{
 		this.load_button = new JButton();
 		
@@ -124,7 +124,7 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	// ** Capture Button setup ** //
 	//*****************************//
-	private void setupCaptureButton() throws IOException
+	private void setupCaptureButton()
 	{
 		this.capture_button = new JButton();
 		

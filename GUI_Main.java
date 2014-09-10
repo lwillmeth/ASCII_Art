@@ -38,7 +38,7 @@ public class GUI_Main
 	
 	//******************************//
 	//*****************************//
-	private void setupFrame() throws IOException
+	private void setupFrame()
 	{
 		this.frame = new JFrame ("ASCII Project");
 		this.frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -54,7 +54,7 @@ public class GUI_Main
 	
 	//******************************//
 	//*****************************//
-	private void setupPanels() throws IOException
+	private void setupPanels()
 	{
 		JPanel container_panel, title_panel;
 		
@@ -89,7 +89,7 @@ public class GUI_Main
 	//******************************//
 	// ** setup MenuBar - returns JMenuBar** //
 	//*****************************//
-	private JMenuBar setupMenuBar() throws IOException
+	private JMenuBar setupMenuBar()
 	{
 		JMenuBar menu_bar = new JMenuBar();
 		JMenu file = new JMenu("File");
@@ -132,7 +132,7 @@ public class GUI_Main
 	//******************************//
 	//** -sets up inner menuitem panels that display info	**//
 	//*****************************//
-	private void setupMenuItemPanels(final JMenuItem about_item) throws IOException
+	private void setupMenuItemPanels(final JMenuItem about_item)
 	{
 		final JPanel about_panel = new JPanel();
 		JLabel label = new JLabel( loadImage(authorpic_filepath) );
@@ -163,7 +163,7 @@ public class GUI_Main
 	//******************************//
 	// ** load image- return ImageIcon** //
 	//*****************************//
-	public static ImageIcon loadImage(String filepath) throws IOException
+	public static ImageIcon loadImage(String filepath)
 	{	
 		return new ImageIcon(loadBufferedImage(filepath));
 	}
