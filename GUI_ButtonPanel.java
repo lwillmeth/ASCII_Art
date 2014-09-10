@@ -40,7 +40,7 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	// ** Constructor ** //
 	//*****************************//
-	public GUI_ButtonPanel(GUI_DisplayPanel display_panel) throws IOException
+	public GUI_ButtonPanel() throws IOException
 	{
 		this.setBorder(BorderFactory.createEmptyBorder( 10,	 //top -create spacing
 														0,   //left
@@ -87,9 +87,7 @@ public class GUI_ButtonPanel extends JPanel
 							String temp = fileChooser(); //returns string of file chosen
 							ImageIcon icon = new ImageIcon( resizeImage(temp));
 							
-							display_panel.setImageToConvert_filepath(temp);//setting the image that will now be converted
-							display_panel.changeStandardIcon(icon); //change display image
-							display_panel.convertImageToAscii(); 
+							display_panel.convertImageToAscii(temp); 
 						} 
 						catch (IOException e)
 						{
@@ -278,15 +276,10 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	// ** resize image - takes filepath - returns BufferedImage** //
 	//*****************************//
-	private BufferedImage resizeImage(String filepath) throws IOException
+	private BufferedImage resizeImage(String filepath)
 	{	
 		int max_size = 470;
-
-		if(filepath == null)
-			filepath = this.loadimage_filepath;
-	
-		BufferedImage image = ImageIO.read(new File(filepath));
-	    return image = Scalr.resize(image, max_size); //**imported Library (credit imgScalr)
+	    return Scalr.resize(GUI_Main.loadBufferedImage(filepath), max_size);
 	}
 	
 	
@@ -294,16 +287,14 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	//** webCam - opens webcam..takes pic..saves to file
 	//*****************************//
-	private void webCam() throws IOException
+	private void webCam()
 	{	
 		//**get default webcam..set resolution..open it
 		Webcam webcam = Webcam.getDefault();
 		webcam.setViewSize(WebcamResolution.VGA.getSize());
 		webcam.open();
-		BufferedImage image = webcam.getImage();
-
-		//**save image to temp_capturedimage_filepath
 		try{
+			BufferedImage image = webcam.getImage();
 			ImageIO.write(image, "PNG", new File(this.temp_capturedimage_filepath));
 		} 
 		catch (IOException e){ e.printStackTrace(); }
