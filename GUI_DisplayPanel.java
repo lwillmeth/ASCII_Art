@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -10,9 +9,7 @@ import javax.swing.JTextArea;
 
 public class GUI_DisplayPanel extends JPanel
 {
-	private final String loadimage_filepath = "src//imgs//loadimage.png";
-	private String imagetoconvert_filepath = "";
-	private JLabel standard_label, ascii_label;
+	private JLabel standard_label;
 	private JTextArea textarea;
 	
 	//******************************//
@@ -37,7 +34,7 @@ public class GUI_DisplayPanel extends JPanel
 	private void displayStandardImage()
 	{
 		//** load image - set label to imageicon **//
-    	this.standard_label = new JLabel(GUI_Main.loadImage(loadimage_filepath));
+    	this.standard_label = new JLabel(GUI_Main.loadImage());
 		this.standard_label.setBorder(BorderFactory.createLoweredBevelBorder());
 		this.standard_label.setSize(400, 400);
 		this.add(this.standard_label, BorderLayout.LINE_START);
@@ -141,28 +138,4 @@ public class GUI_DisplayPanel extends JPanel
 	{
 		standard_label.setIcon(icon);
 	}
-	
-	public void changeAsciiIcon(ImageIcon icon)
-	{
-		ascii_label.setIcon(icon);
-	}
-	
-	
-	
-	//*****************************//
-	//** ImageToConvert_filepath - setter/getter - changes filepath to image to be converted **//
-	//*****************************//
-	public String getImageToConvert_filepath()
-	{
-		if(this.imagetoconvert_filepath == null)
-			return this.loadimage_filepath;
-		else
-			return imagetoconvert_filepath;
-	}
-
-	public void setImageToConvert_filepath(String waitingtoconvert_filepath)
-	{
-		this.imagetoconvert_filepath = waitingtoconvert_filepath;
-	}
-	
 }

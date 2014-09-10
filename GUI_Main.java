@@ -13,15 +13,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-//import javax.swing.JTextArea;
 
 public class GUI_Main
 {	
 	public static final int ASCII_MAX_SIZE = 55;
+	public static final String loadimage_filepath = "src//imgs//loadimage.png";
+	
 	private JFrame frame;
 	private final String banner_filepath = "src//imgs//banner.png",
 					  authorpic_filepath = "src//imgs//authorPic.png";
-	private static final String loadimage_filepath = "src//imgs//loadimage.png";
 	
 	public static void main(String[] args)
 	{
@@ -46,14 +46,11 @@ public class GUI_Main
 	//*****************************//
 	private void setupPanels()
 	{
-		JPanel container_panel, title_panel;
-		
 		// ** instantiate panels..etc **//
-		container_panel = new JPanel();
-		title_panel = new JPanel();
+		JPanel container_panel = new JPanel();
+		JPanel title_panel = new JPanel();
 		JLabel banner_label = new JLabel();
 		
-		//JTextArea textarea = new JTextArea();
 		GUI_DisplayPanel display_panel = new GUI_DisplayPanel();
 		GUI_ButtonPanel button_panel = new GUI_ButtonPanel(display_panel);
 		
@@ -153,6 +150,11 @@ public class GUI_Main
 	//******************************//
 	// ** load image- return ImageIcon** //
 	//*****************************//
+	public static ImageIcon loadImage()
+	{	
+		return new ImageIcon(loadBufferedImage(loadimage_filepath));
+	}
+	// Overloaded
 	public static ImageIcon loadImage(String filepath)
 	{	
 		return new ImageIcon(loadBufferedImage(filepath));
@@ -165,17 +167,12 @@ public class GUI_Main
 	//*****************************//
 	public static BufferedImage loadBufferedImage(String filepath)
 	{
-		if(filepath == null)
-			filepath = loadimage_filepath;
-		
 		try{
-			BufferedImage img = ImageIO.read(new File(filepath));
-			return img;
+			return (BufferedImage)ImageIO.read(new File(filepath));
 		}catch (Exception e){
 			System.out.println("Image \""+filepath+"\" not found.");
 			try{
-				BufferedImage img = ImageIO.read(new File("/src/imgs/loadimage.png"));
-				return img;
+				return (BufferedImage)ImageIO.read(new File(loadimage_filepath));
 			}catch (Exception error){
 				System.out.println("Default image not found.");
 				return null;
