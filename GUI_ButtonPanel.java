@@ -81,7 +81,11 @@ public class GUI_ButtonPanel extends JPanel
 						//** -calls and runs filechooser method..returns filepath as string
 						//** -then brings filepath into resizeImage...a resized bufferedimage is returned
 						//** -then a new Imageicon is made with resized bufferedimage as icon
-						display_panel.convertImageToAscii(GUI_Main.loadBufferedImage(fileChooser()));
+						String file = fileChooser();
+						BufferedImage resized = resizeImage(file);
+						
+						display_panel.changeStandardIcon(new ImageIcon(resized));
+						display_panel.convertImageToAscii(resized);
 					}
 				}
 			}
