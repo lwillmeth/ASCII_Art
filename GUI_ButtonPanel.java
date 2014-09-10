@@ -34,13 +34,12 @@ public class GUI_ButtonPanel extends JPanel
 			        capture_button_filepath = "src//imgs//capturebutton.png", 
 				   hover_hd_button_filepath = "src//imgs//harddrivebuttonHover.png",
 			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png",
-					      loadimage_filepath = "src//imgs//loadimage.png",
 			    temp_capturedimage_filepath = "temp.png";
 	
 	//******************************//
 	// ** Constructor ** //
 	//*****************************//
-	public GUI_ButtonPanel()
+	public GUI_ButtonPanel(GUI_DisplayPanel display_panel)
 	{
 		this.setBorder(BorderFactory.createEmptyBorder( 10,	 //top -create spacing
 														0,   //left
@@ -82,17 +81,7 @@ public class GUI_ButtonPanel extends JPanel
 						//** -calls and runs filechooser method..returns filepath as string
 						//** -then brings filepath into resizeImage...a resized bufferedimage is returned
 						//** -then a new Imageicon is made with resized bufferedimage as icon
-						try
-						{
-							String temp = fileChooser(); //returns string of file chosen
-							ImageIcon icon = new ImageIcon( resizeImage(temp));
-							
-							display_panel.convertImageToAscii(temp); 
-						} 
-						catch (IOException e)
-						{
-							e.printStackTrace();
-						}
+						display_panel.convertImageToAscii(GUI_Main.loadBufferedImage(fileChooser()));
 					}
 				}
 			}
@@ -145,17 +134,7 @@ public class GUI_ButtonPanel extends JPanel
 				{
 					if(ae.getSource() == capture_button)
 					{
-						try {
-							webCam(); // -runs/takes webcam pic - saved as temp_capturedimage_filepath
-							
-							ImageIcon icon = new ImageIcon( resizeImage(temp_capturedimage_filepath) ); 
-							
-							display_panel.setImageToConvert_filepath(temp_capturedimage_filepath); //setting the image that will now be converted
-							display_panel.changeStandardIcon(icon); //change display image
-							
-							display_panel.convertImageToAscii(); 
-						} 
-						catch (IOException e) { e.printStackTrace(); }
+						display_panel.convertImageToAscii(webCam());
 					}
 				}
 			}
@@ -287,18 +266,17 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	//** webCam - opens webcam..takes pic..saves to file
 	//*****************************//
-	private void webCam()
+	private BufferedImage webCam()
 	{	
 		//**get default webcam..set resolution..open it
 		Webcam webcam = Webcam.getDefault();
 		webcam.setViewSize(WebcamResolution.VGA.getSize());
 		webcam.open();
-		try{
-			BufferedImage image = webcam.getImage();
-			ImageIO.write(image, "PNG", new File(this.temp_capturedimage_filepath));
-		} 
-		catch (IOException e){ e.printStackTrace(); }
+		
+		BufferedImage pic = webcam.getImage();
 		webcam.close();
+		
+		return pic;
 	}
 	
 	

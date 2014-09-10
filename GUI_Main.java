@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -25,20 +23,12 @@ public class GUI_Main
 					  authorpic_filepath = "src//imgs//authorPic.png";
 	private static final String loadimage_filepath = "src//imgs//loadimage.png";
 	
-	public static void main(String[] args) throws IOException 
+	public static void main(String[] args)
 	{
 		new GUI_Main();
 	}
 	
-	public GUI_Main() throws IOException
-	{
-		this.setupFrame();
-	}
-	
-	
-	//******************************//
-	//*****************************//
-	private void setupFrame()
+	public GUI_Main()
 	{
 		this.frame = new JFrame ("ASCII Project");
 		this.frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -65,7 +55,7 @@ public class GUI_Main
 		
 		//JTextArea textarea = new JTextArea();
 		GUI_DisplayPanel display_panel = new GUI_DisplayPanel();
-		GUI_ButtonPanel button_panel = new GUI_ButtonPanel();
+		GUI_ButtonPanel button_panel = new GUI_ButtonPanel(display_panel);
 		
 		// ** setup title panel - load banner image **//
 		title_panel.setBorder(BorderFactory.createEmptyBorder( 20,	 //top -create spacing

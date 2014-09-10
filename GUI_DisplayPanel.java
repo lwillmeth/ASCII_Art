@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
