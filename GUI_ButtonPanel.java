@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,8 +31,7 @@ public class GUI_ButtonPanel extends JPanel
 	private final String hd_button_filepath = "src//imgs//harddrivebutton.png",
 			        capture_button_filepath = "src//imgs//capturebutton.png", 
 				   hover_hd_button_filepath = "src//imgs//harddrivebuttonHover.png",
-			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png",
-			    temp_capturedimage_filepath = "temp.png";
+			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png";
 	
 	//******************************//
 	// ** Constructor ** //
@@ -78,12 +75,10 @@ public class GUI_ButtonPanel extends JPanel
 				{
 					if(ae.getSource() == load_button) //when button pressed..
 					{	
-						//** -calls and runs filechooser method..returns filepath as string
-						//** -then brings filepath into resizeImage...a resized bufferedimage is returned
-						//** -then a new Imageicon is made with resized bufferedimage as icon
-						String file = fileChooser();
-						BufferedImage resized = resizeImage(file);
+						//** Calls fileChooser() to create a BufferedImage, then resizes it. **// 
+						BufferedImage resized = resizeImage(fileChooser());
 						
+						//** Use the resized image to update the displayed picture, and ascii text. **//
 						display_panel.changeStandardIcon(new ImageIcon(resized));
 						display_panel.convertImageToAscii(resized);
 					}
@@ -138,7 +133,13 @@ public class GUI_ButtonPanel extends JPanel
 				{
 					if(ae.getSource() == capture_button)
 					{
-						display_panel.convertImageToAscii(webCam());
+						//** Calls webCam() to create a BufferedImage. **//
+						//** This assumes webCam() returns an acceptably sized image. **//
+						BufferedImage picture = webCam();
+						
+						//** Use the image to update the displayed picture, and ascii text. **//
+						display_panel.changeStandardIcon(new ImageIcon(picture));
+						display_panel.convertImageToAscii(picture);
 					}
 				}
 			}
