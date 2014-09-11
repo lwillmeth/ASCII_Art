@@ -192,8 +192,8 @@ public class GUI_ButtonPanel extends JPanel
 						try
 						{
 							BufferedImage currentImage = display_panel.getCurrentIcon();
-							String filename =  System.currentTimeMillis()+"orig.jpg";
-							ImageIO.write(currentImage, "JPEG", new File(filename));
+							String filename =  "savedFiles/"+System.currentTimeMillis()+"orig.gif";
+							ImageIO.write(currentImage, "GIF", new File(filename));
 							
 						}catch(IOException e)
 						{
