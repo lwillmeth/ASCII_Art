@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -15,29 +13,22 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-//import javax.swing.JTextArea;
 
 public class GUI_Main
 {	
 	public static final int ASCII_MAX_SIZE = 55;
+	public static final String loadimage_filepath = "src//imgs//loadimage.png";
+	
 	private JFrame frame;
 	private final String banner_filepath = "src//imgs//banner.png",
 					  authorpic_filepath = "src//imgs//authorPic.png";
 	
-	public static void main(String[] args) throws IOException 
+	public static void main(String[] args)
 	{
 		new GUI_Main();
 	}
 	
-	public GUI_Main() throws IOException
-	{
-		this.setupFrame();
-	}
-	
-	
-	//******************************//
-	//*****************************//
-	private void setupFrame() throws IOException
+	public GUI_Main()
 	{
 		this.frame = new JFrame ("ASCII Project");
 		this.frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
@@ -53,61 +44,31 @@ public class GUI_Main
 	
 	//******************************//
 	//*****************************//
-	private void setupPanels() throws IOException
+	private void setupPanels()
 	{
-		JPanel container_panel, title_panel;
-		
 		// ** instantiate panels..etc **//
-		container_panel = new JPanel();
-		title_panel = new JPanel();
+		JPanel container_panel = new JPanel();
+		JPanel title_panel = new JPanel();
 		JLabel banner_label = new JLabel();
-		//JTextArea textarea = new JTextArea();
-		GUI_DisplayPanel display_panel = new GUI_DisplayPanel(container_panel); //need to pass panel for displaying dialog box messages
-		GUI_ButtonPanel button_panel = new GUI_ButtonPanel(display_panel); //pass in panel to use methods
 		
-		// ** setup container panel **//
-		container_panel.setLayout(new BorderLayout()); // **main layout
-		container_panel.setBackground(Color.blue);
-		this.frame.add(container_panel);
-		container_panel.add(title_panel, BorderLayout.PAGE_START);
-		container_panel.add(display_panel, BorderLayout.CENTER);// needs own class for logic
-		container_panel.add(button_panel,BorderLayout.PAGE_END);//needs own class for logic
-
+		GUI_DisplayPanel display_panel = new GUI_DisplayPanel();
+		GUI_ButtonPanel button_panel = new GUI_ButtonPanel(display_panel);
+		
 		// ** setup title panel - load banner image **//
 		title_panel.setBorder(BorderFactory.createEmptyBorder( 20,	 //top -create spacing
 															    0,   //left
 															   20,   //bottom 
 															    0)); //right
 		banner_label.setIcon(loadImage(banner_filepath)); 
-		
 		title_panel.add(banner_label);
-	}
-	
-	
-	
-	//******************************//
-	// ** load image- return ImageIcon** //
-	//*****************************//
-	public static ImageIcon loadImage(String filepath) throws IOException
-	{	
-		return new ImageIcon(loadBufferedImage(filepath));
-	}
-	
-	
-	
-	//******************************//
-	// ** load image- return BufferedImage** //
-	//*****************************//
-	public static BufferedImage loadBufferedImage(String filepath) throws IOException
-	{
-		try{
-			BufferedImage img = ImageIO.read(new File(filepath));
-			return img;
-		}catch (Exception e){
-			System.out.println("Image not found.");
-			BufferedImage img = ImageIO.read(new File("/src/imgs/loadimage.png"));
-			return img;
-		}
+		
+		// ** setup container panel **//
+		container_panel.setLayout(new BorderLayout()); // **main layout
+		container_panel.setBackground(Color.blue);
+		container_panel.add(title_panel, BorderLayout.PAGE_START);
+		container_panel.add(display_panel, BorderLayout.CENTER);// needs own class for logic
+		container_panel.add(button_panel,BorderLayout.PAGE_END);//needs own class for logic
+		this.frame.add(container_panel);
 	}
 	
 	
@@ -115,7 +76,7 @@ public class GUI_Main
 	//******************************//
 	// ** setup MenuBar - returns JMenuBar** //
 	//*****************************//
-	private JMenuBar setupMenuBar() throws IOException
+	private JMenuBar setupMenuBar()
 	{
 		JMenuBar menu_bar = new JMenuBar();
 		JMenu file = new JMenu("File");
@@ -158,7 +119,7 @@ public class GUI_Main
 	//******************************//
 	//** -sets up inner menuitem panels that display info	**//
 	//*****************************//
-	private void setupMenuItemPanels(final JMenuItem about_item) throws IOException
+	private void setupMenuItemPanels(final JMenuItem about_item)
 	{
 		final JPanel about_panel = new JPanel();
 		JLabel label = new JLabel( loadImage(authorpic_filepath) );
@@ -182,5 +143,40 @@ public class GUI_Main
 				}
 			}
 		);
+	}
+	
+	
+	
+	//******************************//
+	// ** load image- return ImageIcon** //
+	//*****************************//
+	public static ImageIcon loadImage()
+	{	
+		return new ImageIcon(loadBufferedImage(loadimage_filepath));
+	}
+	// Overloaded
+	public static ImageIcon loadImage(String filepath)
+	{	
+		return new ImageIcon(loadBufferedImage(filepath));
+	}
+	
+	
+	
+	//******************************//
+	// ** load image- return BufferedImage** //
+	//*****************************//
+	public static BufferedImage loadBufferedImage(String filepath)
+	{
+		try{
+			return (BufferedImage)ImageIO.read(new File(filepath));
+		}catch (Exception e){
+			System.out.println("Image \""+filepath+"\" not found.");
+			try{
+				return (BufferedImage)ImageIO.read(new File(loadimage_filepath));
+			}catch (Exception error){
+				System.out.println("Default image not found.");
+				return null;
+			}
+		}
 	}
 }
