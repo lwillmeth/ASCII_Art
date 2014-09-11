@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import java.awt.Image;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -11,6 +12,7 @@ public class GUI_DisplayPanel extends JPanel
 {
 	private JLabel standard_label;
 	private JTextArea textarea;
+	private ImageIcon currentImage;
 	
 	//******************************//
 	// ** Constructor ** //
@@ -134,8 +136,17 @@ public class GUI_DisplayPanel extends JPanel
 	//******************************//
 	//** -change image icon being displayed **// 
 	//*****************************//
-	public void changeStandardIcon(ImageIcon icon)
+	public void setCurrentIcon(ImageIcon icon)
 	{
-		standard_label.setIcon(icon);
+		this.currentImage = icon;
+		standard_label.setIcon(currentImage);
+	}
+	
+	//******************************//
+	//** -Returns the currently displayed icon **// 
+	//*****************************//
+	public BufferedImage getCurrentIcon()
+	{
+		return (BufferedImage)currentImage.getImage();
 	}
 }

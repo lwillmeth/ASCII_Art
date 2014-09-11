@@ -15,6 +15,10 @@ public class GUI_Video extends JFrame{
 	private char[][] ascii_img = new char[ASCII_MAX_SIZE][ASCII_MAX_SIZE];
 	private Webcam webcam = Webcam.getDefault();
 	
+	public static void main(String[] args){
+		new GUI_Video();
+	}
+	
 	public GUI_Video(){
 
 		webcam.setViewSize(new Dimension(320,240));
@@ -47,9 +51,6 @@ public class GUI_Video extends JFrame{
 //		}
 	}
 
-	public static void main(String[] args){
-		new GUI_Video();
-	}
 	
 //	@Override
 //	public void run(){

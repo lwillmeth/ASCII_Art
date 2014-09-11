@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.imgscalr.Scalr;
+
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamResolution;
 
@@ -42,7 +45,7 @@ public class GUI_ButtonPanel extends JPanel
 		this.display_panel = display_panel;
 		this.setupLoadButton();
 		this.setupCaptureButton();
-		//this.setupSaveButton();
+		this.setupSaveButton();
 		//this.setupPrintButton();
 	}
 	
@@ -76,7 +79,7 @@ public class GUI_ButtonPanel extends JPanel
 						BufferedImage resized = resizeImage(fileChooser());
 						
 						//** Use the resized image to update the displayed picture, and ascii text. **//
-						display_panel.changeStandardIcon(new ImageIcon(resized));
+						display_panel.setCurrentIcon(new ImageIcon(resized));
 						display_panel.convertImageToAscii(resized);
 					}
 				}
@@ -135,7 +138,7 @@ public class GUI_ButtonPanel extends JPanel
 						BufferedImage picture = webCam();
 						
 						//** Use the image to update the displayed picture, and ascii text. **//
-						display_panel.changeStandardIcon(new ImageIcon(picture));
+						display_panel.setCurrentIcon(new ImageIcon(picture));
 						display_panel.convertImageToAscii(picture);
 					}
 				}
@@ -186,10 +189,16 @@ public class GUI_ButtonPanel extends JPanel
 				{
 					if(ae.getSource() == save_button)
 					{
-						JOptionPane.showMessageDialog(display_panel,
-								"Feature coming soon!",
-								"Sorry :(",
-								JOptionPane.WARNING_MESSAGE);
+						try
+						{
+							BufferedImage currentImage = display_panel.getCurrentIcon();
+							String filename =  System.currentTimeMillis()+"orig.jpg";
+							ImageIO.write(currentImage, "JPEG", new File(filename));
+							
+						}catch(IOException e)
+						{
+							
+						}
 					}
 				}
 			}
@@ -279,7 +288,7 @@ public class GUI_ButtonPanel extends JPanel
 		webcam.close();
 		
 		return pic;
-	}
+	}	
 	
 	
 	
