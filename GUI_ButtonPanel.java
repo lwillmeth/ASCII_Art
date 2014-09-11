@@ -57,7 +57,7 @@ public class GUI_ButtonPanel extends JPanel
 	private void setupLoadButton()
 	{
 		this.load_button = new JButton();
-		
+
 		//** button image **//
 		this.load_button.setIcon(GUI_Main.loadImage(hd_button_filepath));
 		
@@ -80,7 +80,7 @@ public class GUI_ButtonPanel extends JPanel
 						
 						//** Use the resized image to update the displayed picture, and ascii text. **//
 						display_panel.setCurrentIcon(new ImageIcon(resized));
-						display_panel.convertImageToAscii(resized);
+						display_panel.setCurrentAscii(resized);
 					}
 				}
 			}
@@ -139,7 +139,7 @@ public class GUI_ButtonPanel extends JPanel
 						
 						//** Use the image to update the displayed picture, and ascii text. **//
 						display_panel.setCurrentIcon(new ImageIcon(picture));
-						display_panel.convertImageToAscii(picture);
+						display_panel.setCurrentAscii(picture);
 					}
 				}
 			}

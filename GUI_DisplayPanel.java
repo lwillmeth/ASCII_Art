@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -29,9 +30,9 @@ public class GUI_DisplayPanel extends JPanel
 	
 		
 	
-	//******************************//
-	//** setup standard label image - is image to be covert **//
-	//*****************************//
+	//***********************************//
+	//** Set default image on startup **//
+	//*********************************//
 	private void displayStandardImage()
 	{
 		//** load image - set label to imageicon **//
@@ -43,9 +44,9 @@ public class GUI_DisplayPanel extends JPanel
 	
 	
 	
-	//******************************//
-	//** setup TextArea to display converted image in Ascii art  **// 
-	//*****************************//
+	//*************************************************************//
+	//** setup TextArea to display converted image in Ascii art **// 
+	//***********************************************************//
 	private void setupTextArea()
 	{	
 		textarea = new JTextArea(120,120);
@@ -58,10 +59,50 @@ public class GUI_DisplayPanel extends JPanel
 	
 	
 	
+//	//******************************//
+//	// ** Convert Image to 2d char array** //
+//	//*****************************//
+//	public char[][] convertBufferedImageToAscii(BufferedImage image)
+//	{
+//		// Read image into an array of bytes
+//		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();		
+//
+//		// Find aspect ratio and orientation for the image
+//		final double img_ratio = (double)image.getWidth()/image.getHeight();
+//		
+//		int num_rows, num_cols;
+//		if(img_ratio>1)
+//		{
+//			// image is vertical
+//			num_rows = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
+//			num_cols = GUI_Main.ASCII_MAX_SIZE;
+//		}
+//		else
+//		{
+//			// image is horizontal or square
+//			num_rows = GUI_Main.ASCII_MAX_SIZE;
+//			num_cols = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
+//		}
+//		
+//		// Prepare an empty 2d array of characters representing the image
+//		char[][] result = new char[num_rows][num_cols];
+//
+//		if(image.getAlphaRaster() != null){
+//			// image has alpha channel
+//			final int numChannels = 4;
+//			for(int pixel=0,row=0,col=0; pixel<pixels.length; pixel+=numChannels){
+//				
+//			}
+//		}
+//		
+//	}
+	
+	
+	
 	//******************************//
 	// ** Convert Image to Ascii ** //
 	//*****************************//
-	public void convertImageToAscii(BufferedImage image)
+	public char[][] convertImageToAscii(BufferedImage image)
 	{
 		// our available characters, is less more? Who knows.
 		final String ascii_chars = "@&%#=+:-.  ";
@@ -119,32 +160,45 @@ public class GUI_DisplayPanel extends JPanel
 				ascii_img[row][col] = ascii_chars.charAt(block_avg/24);
 			}
 		}
-		
-		//output text to textarea.
-		// This should be a separate method.
+		return ascii_img;
+	}
+	
+	
+	
+	//*******************************************//
+	// ** change Ascii image being displayed ** //
+	//*****************************************//
+	public void setCurrentAscii(BufferedImage image)
+	{
+		setCurrentAscii(convertImageToAscii(image));
+	}
+	// Override
+	public void setCurrentAscii(char[][] ascii)
+	{
 		this.textarea.setText(""); //clear textarea
-		for(int i = 0; i < ascii_img.length; i++) 
+		for(int i = 0; i < ascii.length; i++) 
 		{
-			for(int j = 0; j < ascii_img[i].length; j++) 
-				this.textarea.append(" " + ascii_img[i][j]);
+			for(int j = 0; j < ascii[i].length; j++) 
+				this.textarea.append(" " + ascii[i][j]);
 			this.textarea.append("\n");
 		}
 	}
 
 	
 	
-	//******************************//
-	//** -change image icon being displayed **// 
-	//*****************************//
+	//****************************************//
+	//** Change image icon being displayed **// 
+	//**************************************//
 	public void setCurrentIcon(ImageIcon icon)
 	{
-		this.currentImage = icon; // Save icon for later, it's hard to get back once converted to label.
+		// Save icon for later, converting back from JLabel is unreliable.
+		this.currentImage = icon;
 		standard_label.setIcon(currentImage);
 	}
 	
-	//******************************//
-	//** -Returns the currently displayed icon **// 
-	//*****************************//
+	//*******************************************//
+	//** Returns the currently displayed icon **// 
+	//*****************************************//
 	public BufferedImage getCurrentIcon()
 	{
 		return (BufferedImage)currentImage.getImage();
