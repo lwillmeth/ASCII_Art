@@ -1,7 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
-import java.awt.Image;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -121,7 +120,8 @@ public class GUI_DisplayPanel extends JPanel
 			}
 		}
 		
-		//output text to textarea
+		//output text to textarea.
+		// This should be a separate method.
 		this.textarea.setText(""); //clear textarea
 		for(int i = 0; i < ascii_img.length; i++) 
 		{
@@ -138,7 +138,7 @@ public class GUI_DisplayPanel extends JPanel
 	//*****************************//
 	public void setCurrentIcon(ImageIcon icon)
 	{
-		this.currentImage = icon;
+		this.currentImage = icon; // Save icon for later, it's hard to get back once converted to label.
 		standard_label.setIcon(currentImage);
 	}
 	

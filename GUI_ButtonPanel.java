@@ -196,9 +196,7 @@ public class GUI_ButtonPanel extends JPanel
 							ImageIO.write(currentImage, "GIF", new File(filename));
 							
 						}catch(IOException e)
-						{
-							
-						}
+						{ e.printStackTrace(); }
 					}
 				}
 			}
@@ -235,7 +233,6 @@ public class GUI_ButtonPanel extends JPanel
 				}
 			}
 		);
-		
 		this.add(this.print_button);
 	}
 	
@@ -285,8 +282,7 @@ public class GUI_ButtonPanel extends JPanel
 		webcam.open();
 		
 		BufferedImage pic = webcam.getImage();
-		webcam.close();
-		
+		webcam.close(); // Not sure if webcam should stay open or be closed after each use.
 		return pic;
 	}	
 	
@@ -310,7 +306,7 @@ public class GUI_ButtonPanel extends JPanel
 					print.print(temp[i][j]);
 			}
 			print.close();		
-		} 
-		catch (IOException ioe) { ioe.printStackTrace(); }
+		} catch (IOException e) 
+		{ e.printStackTrace(); }
 	}
 }
