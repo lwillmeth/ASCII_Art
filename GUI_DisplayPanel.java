@@ -144,7 +144,7 @@ public class GUI_DisplayPanel extends JPanel
 				image.getRGB(col*block_w, row*block_h,
 						block_w, block_h, pixels, 0, block_w);
 
-				for(int rgb:pixels)
+				for(int argb:pixels)
 				{
 					/*
 						rgb is a 32 bit int representing 4 color channels: alpha/r/g/b
@@ -152,7 +152,8 @@ public class GUI_DisplayPanel extends JPanel
 						(rgb>>16)&0xFF) bit shifts the int by 16 places to the right.
 						Then reduces to 1 byte by using & with the bit pattern 11111111.
 					 */
-					block_avg += (((rgb>>16)&0xFF) + ((rgb>>8)&0xFF) + (rgb&0xFF) )/3;
+					if(argb==0) block_avg += 256;
+					else block_avg += (( (argb>>16)&0xFF)+((argb>>8)&0xFF)+(argb&0xFF) )/3;
 				}
 				// divide the total by block size to find average block brightness
 				// block_avg could be adjusted up/down to weight the output
