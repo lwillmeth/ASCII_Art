@@ -200,7 +200,7 @@ public class GUI_ButtonPanel extends JPanel
 							String filename =  "Pictures/"+timestamp+".gif";
 							ImageIO.write(currentImage, "GIF", new File(filename));
 							// Save ascii using the same timestamp.
-							printAsciiToFile(timestamp, display_panel.convertImageToAscii(currentImage));
+							printAsciiToFile(timestamp, display_panel.getCurrentAscii());
 							
 						}catch(IOException e)
 						{ e.printStackTrace(); }
@@ -303,7 +303,7 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	// ** prints a 2d array out to text file - takes in 2dchar array ** //
 	//*****************************//
-	private void printAsciiToFile(String filename, char[][] ascii)
+	private void printAsciiToFile(String filename, String ascii)
 	{
 		try
 		{
@@ -311,12 +311,13 @@ public class GUI_ButtonPanel extends JPanel
 			BufferedWriter buffer = new BufferedWriter(write);
 			PrintWriter print = new PrintWriter(buffer);
 			
-			for(int i=0; i< ascii.length; i++)
-			{
-				print.println();
-				for(int j=0; j < ascii[i].length; j++)
-					print.print(ascii[i][j]);
-			}
+			print.println(ascii);
+//			for(int i=0; i< ascii.length; i++)
+//			{
+//				print.println();
+//				for(int j=0; j < ascii[i].length; j++)
+//					print.print(ascii[i][j]);
+//			}
 			print.close();		
 		} catch (IOException e) 
 		{ e.printStackTrace(); }

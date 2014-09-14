@@ -195,6 +195,16 @@ public class GUI_DisplayPanel extends JPanel
 			this.textarea.append("\n");
 		}
 	}
+	
+	
+	
+	//*************************************//
+	//** Get ascii text being displayed **// 
+	//***********************************//
+	public String getCurrentAscii()
+	{
+		return textarea.getText();
+	}
 
 	
 	
