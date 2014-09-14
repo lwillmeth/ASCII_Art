@@ -191,10 +191,16 @@ public class GUI_ButtonPanel extends JPanel
 					{
 						try
 						{
+							// Create folder if it doesn't already exist.
 							new File("Pictures").mkdirs();
+							// Get currently displayed image.
 							BufferedImage currentImage = display_panel.getCurrentIcon();
-							String filename =  "Pictures/"+System.currentTimeMillis()+"orig.gif";
+							// Use current timestamp as filename to prevent duplicate images.
+							final String timestamp = String.valueOf(System.currentTimeMillis());
+							String filename =  "Pictures/"+timestamp+".gif";
 							ImageIO.write(currentImage, "GIF", new File(filename));
+							// Save ascii using the same timestamp.
+							printAsciiToFile(timestamp, display_panel.convertImageToAscii(currentImage));
 							
 						}catch(IOException e)
 						{ e.printStackTrace(); }
@@ -297,19 +303,19 @@ public class GUI_ButtonPanel extends JPanel
 	//******************************//
 	// ** prints a 2d array out to text file - takes in 2dchar array ** //
 	//*****************************//
-	private void printToFile(char[][] temp)
+	private void printAsciiToFile(String filename, char[][] ascii)
 	{
 		try
 		{
-			FileWriter write = new FileWriter("temp.txt");
+			FileWriter write = new FileWriter("Pictures/"+filename+".txt");
 			BufferedWriter buffer = new BufferedWriter(write);
 			PrintWriter print = new PrintWriter(buffer);
 			
-			for(int i=0; i< temp.length; i++)
+			for(int i=0; i< ascii.length; i++)
 			{
 				print.println();
-				for(int j=0; j < temp[i].length; j++)
-					print.print(temp[i][j]);
+				for(int j=0; j < ascii[i].length; j++)
+					print.print(ascii[i][j]);
 			}
 			print.close();		
 		} catch (IOException e) 
