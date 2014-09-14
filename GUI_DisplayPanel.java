@@ -184,7 +184,7 @@ public class GUI_DisplayPanel extends JPanel
 	{
 		setCurrentAscii(convertImageToAscii(image));
 	}
-	// Override
+	// Overloaded
 	public void setCurrentAscii(char[][] ascii)
 	{
 		this.textarea.setText(""); //clear textarea

@@ -134,12 +134,12 @@ public class GUI_ButtonPanel extends JPanel
 					if(ae.getSource() == capture_button)
 					{
 						//** Calls webCam() to create a BufferedImage. **//
-						//** This assumes webCam() returns an acceptably sized image. **//
-						BufferedImage picture = webCam();
+						//** Pass that image through resizeImage() to standardize it's size/shape.
+						BufferedImage image = resizeImage(webCam());
 						
-						//** Use the image to update the displayed picture, and ascii text. **//
-						display_panel.setCurrentIcon(new ImageIcon(picture));
-						display_panel.setCurrentAscii(picture);
+						//** Use image to update the displayed picture, and ascii text. **//
+						display_panel.setCurrentIcon(new ImageIcon(image));
+						display_panel.setCurrentAscii(image);
 					}
 				}
 			}
@@ -260,13 +260,18 @@ public class GUI_ButtonPanel extends JPanel
 	
 	
 	
-	//******************************//
-	// ** resize image - takes filepath - returns BufferedImage** //
-	//*****************************//
+	//*************************************************//
+	//** Returns BufferedImage resized to max_size ** //
+	//***********************************************//
 	private BufferedImage resizeImage(String filepath)
 	{	
+		return resizeImage(GUI_Main.loadBufferedImage(filepath));
+	}
+	// Overloaded
+	private BufferedImage resizeImage(BufferedImage image)
+	{
 		int max_size = 470;
-	    return Scalr.resize(GUI_Main.loadBufferedImage(filepath), max_size);
+	    return Scalr.resize(image, max_size);
 	}
 	
 	
