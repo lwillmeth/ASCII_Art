@@ -59,43 +59,54 @@ public class GUI_DisplayPanel extends JPanel
 	
 	
 	
-//	//******************************//
-//	// ** Convert Image to 2d char array** //
-//	//*****************************//
-//	public char[][] convertBufferedImageToAscii(BufferedImage image)
-//	{
-//		// Read image into an array of bytes
-//		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();		
-//
-//		// Find aspect ratio and orientation for the image
-//		final double img_ratio = (double)image.getWidth()/image.getHeight();
-//		
-//		int num_rows, num_cols;
-//		if(img_ratio>1)
-//		{
-//			// image is vertical
-//			num_rows = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
-//			num_cols = GUI_Main.ASCII_MAX_SIZE;
-//		}
-//		else
-//		{
-//			// image is horizontal or square
-//			num_rows = GUI_Main.ASCII_MAX_SIZE;
-//			num_cols = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
-//		}
-//		
-//		// Prepare an empty 2d array of characters representing the image
-//		char[][] result = new char[num_rows][num_cols];
-//
-//		if(image.getAlphaRaster() != null){
-//			// image has alpha channel
-//			final int numChannels = 4;
-//			for(int pixel=0,row=0,col=0; pixel<pixels.length; pixel+=numChannels){
-//				
-//			}
-//		}
-//		
-//	}
+	//******************************//
+	// ** Convert Image to 2d char array** //
+	//*****************************//
+	public char[][] convertBufferedImageToAscii(BufferedImage image)
+	{
+		// See http://stackoverflow.com/questions/6524196/java-get-pixel-array-from-image/9470843#9470843
+		// Read image into a 2d array of bytes
+		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();		
+
+		// Find dimensions and aspect ratio of the image
+		final int width = image.getWidth(), height = image.getHeight();
+		final double img_ratio = (double)width/height;
+
+		// Find orientation for the image, determine size of rows and columns. 
+		int num_rows, num_cols;
+		if(img_ratio>1)
+		{
+			// image is vertical
+			num_rows = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
+			num_cols = GUI_Main.ASCII_MAX_SIZE;
+		}
+		else
+		{
+			// image is horizontal or square
+			num_rows = GUI_Main.ASCII_MAX_SIZE;
+			num_cols = (int)(GUI_Main.ASCII_MAX_SIZE/img_ratio);
+		}
+		
+		// Prepare an empty 2d array of characters representing the image
+		char[][] result = new char[num_rows][num_cols];
+
+		if(image.getAlphaRaster() != null){
+			// image has alpha channel, iterate using 4 bytes per pixel.
+			final int numChannels = 4;
+			for(int row=0; row<num_rows; row++)
+			{
+				for(int col=0; col<num_cols; col++)
+				{
+					// iterate over pixels in this block
+//					for(int )
+				}
+				
+			}
+		}
+		
+		
+		return result;
+	}
 	
 	
 	
