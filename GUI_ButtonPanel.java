@@ -189,21 +189,7 @@ public class GUI_ButtonPanel extends JPanel
 				{
 					if(ae.getSource() == save_button)
 					{
-						try
-						{
-							// Create folder if it doesn't already exist.
-							new File("Pictures").mkdirs();
-							// Get currently displayed image.
-							BufferedImage currentImage = display_panel.getCurrentIcon();
-							// Use current timestamp as filename to prevent duplicate images.
-							final String timestamp = String.valueOf(System.currentTimeMillis());
-							String filename =  "Pictures/"+timestamp+".gif";
-							ImageIO.write(currentImage, "GIF", new File(filename));
-							// Save ascii using the same timestamp.
-							printAsciiToFile(timestamp, display_panel.getCurrentAscii());
-							
-						}catch(IOException e)
-						{ e.printStackTrace(); }
+						saveToFile();
 					}
 				}
 			}
@@ -296,28 +282,29 @@ public class GUI_ButtonPanel extends JPanel
 		BufferedImage pic = webcam.getImage();
 		webcam.close(); // Not sure if webcam should stay open or be closed after each use.
 		return pic;
-	}	
+	}
 	
 	
 	
-	//******************************//
-	// ** prints a 2d array out to text file - takes in 2dchar array ** //
-	//*****************************//
-	private void printAsciiToFile(String filename, String ascii)
+	//**************************************************************//
+	// ** Saves the currently displayed image and ascii to disk ** //
+	//************************************************************//
+	private void saveToFile()
 	{
 		try
 		{
-			FileWriter write = new FileWriter("Pictures/"+filename+".txt");
-			BufferedWriter buffer = new BufferedWriter(write);
-			PrintWriter print = new PrintWriter(buffer);
-			
-			print.println(ascii);
-//			for(int i=0; i< ascii.length; i++)
-//			{
-//				print.println();
-//				for(int j=0; j < ascii[i].length; j++)
-//					print.print(ascii[i][j]);
-//			}
+			// Create folder if it doesn't already exist.
+			new File("Pictures").mkdirs();
+			// Get currently displayed image.
+			BufferedImage currentImage = display_panel.getCurrentIcon();
+			// Use current timestamp as filename to prevent duplicate images.
+			String filename =  "Pictures/"+String.valueOf(System.currentTimeMillis());
+			ImageIO.write(currentImage, "GIF", new File(filename+".gif"));
+
+			// Save ascii using the same timestamp.
+			PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter(filename+".txt")));
+			print.println(display_panel.getCurrentAscii());
+
 			print.close();		
 		} catch (IOException e) 
 		{ e.printStackTrace(); }
