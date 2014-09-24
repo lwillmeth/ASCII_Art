@@ -2,6 +2,11 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -197,15 +202,38 @@ public class GUI_DisplayPanel extends JPanel
 	}
 	
 	
-	
 	//*************************************//
 	//** Get ascii text being displayed **// 
 	//***********************************//
-	public String getCurrentAscii()
+	/*public String getCurrentAscii()
 	{
 		return textarea.getText();
-	}
+	}*/
+	
+	
+	//******************************//
+	// ** prints a 2d array out to text file - takes in 2dchar array ** //
+	//*****************************//
+	public void printToFile(String sys_time)
+	{
+		char[][] temp = convertImageToAscii(this.getCurrentIcon());
+		
+		try
+		{
+			FileWriter write = new FileWriter("Pictures//"+sys_time+".txt");
+			BufferedWriter buffer = new BufferedWriter(write);
+			PrintWriter print = new PrintWriter(buffer);
 
+			for(int i=0; i< temp.length; i++)
+			{
+				print.println();
+				for(int j=0; j < temp[i].length; j++)
+					print.print(temp[i][j]);
+			}
+			print.close();		
+		} 
+		catch (IOException ioe) { ioe.printStackTrace(); }
+	}
 	
 	
 	//****************************************//
