@@ -31,7 +31,10 @@ public class GUI_ButtonPanel extends JPanel
 	private final String hd_button_filepath = "src//imgs//harddrivebutton.png",
 			        capture_button_filepath = "src//imgs//capturebutton.png", 
 				   hover_hd_button_filepath = "src//imgs//harddrivebuttonHover.png",
-			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png";
+			  hover_capture_button_filepath = "src//imgs//capturebuttonHover.png",
+					   save_button_filepath = "src//imgs//savebutton.png",
+				 hover_save_button_filepath = "src//imgs//savebuttonHover.png";
+	
 	
 	//******************************//
 	// ** Constructor ** //
@@ -175,9 +178,14 @@ public class GUI_ButtonPanel extends JPanel
 	//*****************************//
 	private void setupSaveButton()
 	{
-		this.save_button = new JButton("Save");
+		this.save_button = new JButton();
 		
-		//** button image**//
+		//** button image **//
+		this.save_button.setIcon( GUI_Main.loadImage(save_button_filepath) );
+		
+		//**remove button background**//
+		this.save_button.setBorder(null); 
+		this.save_button.setContentAreaFilled(false);
 		
 		//** nested ActionListener **//
 		this.save_button.addActionListener
@@ -194,6 +202,27 @@ public class GUI_ButtonPanel extends JPanel
 				}
 			}
 		);
+		
+		//** nested MouseListener - mouse hover - change image **//
+		final ImageIcon icon_capture_button = GUI_Main.loadImage(save_button_filepath);
+		final ImageIcon hover_capture_button = GUI_Main.loadImage(hover_save_button_filepath);
+		
+		this.save_button.addMouseListener(
+			new MouseListener() 
+			{
+				@Override
+				public void mouseReleased(MouseEvent arg0) {}           
+				@Override
+				public void mousePressed(MouseEvent arg0) {}            
+				@Override
+				public void mouseExited(MouseEvent arg0) { save_button.setIcon(icon_capture_button); }           
+				@Override
+				public void mouseEntered(MouseEvent arg0) { save_button.setIcon(hover_capture_button); }           
+				@Override
+				public void mouseClicked(MouseEvent arg0) {}
+			}
+		);
+
 		this.add(save_button);
 	}
 	
@@ -298,15 +327,20 @@ public class GUI_ButtonPanel extends JPanel
 			// Get currently displayed image.
 			BufferedImage currentImage = display_panel.getCurrentIcon();
 			// Use current timestamp as filename to prevent duplicate images.
-			String filename =  "Pictures/"+String.valueOf(System.currentTimeMillis());
+			String sys_time = String.valueOf(System.currentTimeMillis());
+			String filename =  "Pictures/"+sys_time; //String.valueOf(System.currentTimeMillis());
 			ImageIO.write(currentImage, "GIF", new File(filename+".gif"));
 
 			// Save ascii using the same timestamp.
-			PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter(filename+".txt")));
-			print.println(display_panel.getCurrentAscii());
+			//PrintWriter print = new PrintWriter(new BufferedWriter(new FileWriter(filename+".txt")));
+			//print.println(display_panel.getCurrentAscii());
+			this.display_panel.printToFile(sys_time);
+			
+			//saved pop up message
+			JOptionPane.showMessageDialog(display_panel, "Image has been saved!", "Save", JOptionPane.PLAIN_MESSAGE);
 
-			print.close();		
-		} catch (IOException e) 
-		{ e.printStackTrace(); }
+			//print.close();		
+		} catch (IOException e) { e.printStackTrace(); }
 	}
+	
 }
